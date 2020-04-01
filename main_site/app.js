@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 //Set up mongoose connection
+
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb+srv://dipanshu231099:password231099$$@dipanshu-icwfw.mongodb.net/RobotronicsClub?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true });
