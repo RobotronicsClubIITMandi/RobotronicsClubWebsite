@@ -884,7 +884,7 @@ section {
   margin: 0 auto 35px auto;
   list-style: none;
   text-align: center;
-  background: #fff;
+  background: #f2f2f2;
   border-radius: 50px;
   padding: 2px 15px;
 }
@@ -900,6 +900,11 @@ section {
   color: #334240;
   margin-bottom: 5px;
   transition: all 0.3s ease-in-out;
+  
+}
+[data-filter = '.mentor']
+{
+  display: none;
 }
 
 .portfolio #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
