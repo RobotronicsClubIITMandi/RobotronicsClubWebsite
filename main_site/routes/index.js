@@ -23,4 +23,8 @@ router.get('/projects', function(req, res, next) {
   res.render('projects', { title: 'Express' });
 });
 
+router.get('/admin', function(req, res, next) {
+  res.render('admin', { title: 'Express' });
+});
+
 module.exports = router;
