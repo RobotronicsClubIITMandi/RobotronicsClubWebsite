@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  
-    <title>Robotronics Club, IIT MANDI</title>
-    <meta content="" name="descriptison">
-    <meta content="" name="keywords">
-  
-    <!-- Favicons -->
-    <link href="assets/img/logo.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-  
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-  
-    <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
-  
-    <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
-  
-    <!-- =======================================================
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Robotronics Club, IIT MANDI</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/logo.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
     * Template Name: Shuffle - v2.0.0
     * Template URL: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
-  </head>
+</head>
 
 <body>
 
@@ -44,14 +46,15 @@
     <div class="container d-flex">
 
       <div class="logo mr-auto">
-      	<a href="index.html"><img src="assets/img/logo.png" alt="" style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
-       
-        
+        <a href="index.html"><img src="assets/img/logo.png" alt=""
+            style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
+
+
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li ><a href="/inventory">Club-Inventory</a></li>
+          <li><a href="/inventory">Club-Inventory</a></li>
           <li><a href="/notifications">Notifications</a></li>
           <li><a href="/projects">Projects</a></li>
           <li><a href="#contact">Contact Us</a></li>
@@ -90,7 +93,21 @@
 
             <div class="accordion-list">
               <ul id="news_ki_list">
+                <% for( var index = 1; index <= data.length; index++ ) { %>
+                  <li style="border: black 1px solid;">
 
+                    <a data-toggle="collapse" class="collapse" href="#accordion-list-2">
+                      <span><%= index %> </span> <%= data[index-1].toJSON()['title'] %>
+                      <i class="bx bx-chevron-down icon-show"></i>
+                      <i class="bx bx-chevron-up icon-close"></i>
+                    </a>
+  
+                    <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
+                      <p><%= data[index-1].toJSON()['content'] %> </p>
+                    </div>
+  
+                  </li>
+                <% } %>
               </ul>
             </div>
 
@@ -98,7 +115,6 @@
         </div>
 
       </div>
-      <script src="/assets/js/news.js"></script><!-- This contains all the news stuff -->
     </section><!-- End Info Box Section -->
 
     <!-- ======= Contact Us Section ======= -->
@@ -186,45 +202,45 @@
 
 
     <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="container">
+          <div class="row">
 
-          <div class="col-lg-3 col-md-6 footer-info">
-            <h3>Robotronics Club <br>IIT MANDI</h3>
-             
+            <div class="col-lg-3 col-md-6 footer-info">
+              <h3>Robotronics Club <br>IIT MANDI</h3>
+
+            </div>
+
+            <div class="col-lg-2 col-md-6 footer-links">
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 footer-newsletter">
+              <img src="assets/img/logo.png" style="position: relative;max-width: 100%;" alt="">
+            </div>
+
           </div>
-
-          <div class="col-lg-2 col-md-6 footer-links">
-            
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            
-          </div>
-
-          <div class="col-lg-4 col-md-6 footer-newsletter">
-            <img src="assets/img/logo.png" style="position: relative;max-width: 100%;" alt="">
-          </div>
-
         </div>
       </div>
-    </div>
 
-    <div class="container">
-      <div class="copyright">
-        made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
+      <div class="container">
+        <div class="copyright">
+          made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
+          Designed by Dipanshu, Nidhi, Pratyush
+        </div>
       </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
-        Designed by Dipanshu, Nidhi, Pratyush
-      </div>
-    </div>
-  </footer><!-- End Footer -->
+    </footer><!-- End Footer -->
 
     <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
 
