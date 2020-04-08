@@ -14,7 +14,9 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -41,15 +43,16 @@
     <div class="container d-flex">
 
       <div class="logo mr-auto">
-      	<a href="index.html"><img src="assets/img/logo.png" alt="" style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
-       
-        
+        <a href="index.html"><img src="assets/img/logo.png" alt=""
+            style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
+
+
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li ><a href="/">Home</a></li>
-          <li ><a href="#">Club-Inventory</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Club-Inventory</a></li>
           <li><a href="/">About Us</a></li>
           <li><a href="/projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -61,14 +64,7 @@
 
   <main id="main">
 
-    
-
-   
-
-
-
-
-<!-- ======= Our Projects Section ======= -->
+    <!-- ======= Our Projects Section ======= -->
     <section id="services" class="services">
       <div class="container">
 
@@ -77,136 +73,44 @@
           <p>components available right now</p>
         </div>
 
-     <!-- ======= Projects Section ======= -->
-    <section class="more-services section-bg">
-      <div class="container">
-
-        <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-1.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">patiala </a></h5>
-                <p class="card-text">nos : <strong>5</strong></p>
-                <a href="#" class="btn">Manage</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">chandigarh</a></h5>
-                <p class="card-text">nos : <strong>5</strong></p>
-                <a href="#" class="btn">Manage</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-1.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">patiala </a></h5>
-                <p class="card-text">nos : <strong>5</strong></p>
-                <a href="#" class="btn">Manage</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">chandigarh</a></h5>
-                <p class="card-text">nos : <strong>5</strong></p>
-                <a href="#" class="btn">Manage</a>
-              </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-image">
+                <thead>
+                  <tr>
+                    <th scope="col">S.no.</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Component Name</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">available</th>
+                    <th scope="col">price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for( var index = 1; index <= array.length; index++ ) { %>
+                  <tr>
+                    <th scope="row"><%= index %></th>
+                    <td class="w-25">
+                      <img
+                        src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg"
+                        class="img-fluid img-thumbnail" alt="Sheep">
+                    </td>
+                    <td><%= array[index-1].toJSON()['component_name'] %></td>
+                    <td><%= array[index-1].toJSON()['total_quantity'] %></td>
+                    <td><%= array[index-1].toJSON()['component_quantity'] %></td>
+                    <td><%= array[index-1].toJSON()['component_price'] %></td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+        <br><br>
 
-      </div>
-    </section><!-- End More Services Section -->
-<br><br>
-    
 
-    <!-- ======= Contact Us Section ======= -->
-    <section id="contact" class="contact section-bg">
-
-      <div class="container">
-        <div class="section-title">
-          <h2>Contact Us</h2>
-        </div>
-      </div>
-
-      <div class="container-fluid">
-
-        <div class="row">
-
-          <div class="col-lg-6 d-flex align-items-stretch infos">
-
-            <div class="row">
-
-              <div class="col-lg-6 info d-flex flex-column align-items-stretch">
-                <i class="bx bx-map"></i>
-                <h4>Address</h4>
-                <p>IIT MANDI, INDIA</p>
-              </div>
-              <div class="col-lg-6 info info-bg d-flex flex-column align-items-stretch">
-                <i class="bx bx-phone"></i>
-                <h4>Contact Coordinators</h4>
-                <p>Ankit: 84349 34890 <br>Piyush: 93545 56594</p>
-              </div>
-              <div class="col-lg-6 info info-bg d-flex flex-column align-items-stretch">
-                <i class="bx bx-envelope"></i>
-                <h4>Email Us</h4>
-                <p>robotronics@iitmandi.ac.in</p>
-              </div>
-              <div class="col-lg-6 info d-flex flex-column align-items-stretch">
-                <i class="bx bx-time-five"></i>
-                <h4>Working Hours</h4>
-                <p>Anytime when you get a knack of making something great</p>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col-lg-6 d-flex align-items-stretch contact-form-wrap">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="form-row">
-                <div class="col-md-6 form-group">
-                  <label for="name">Your Name</label>
-                  <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                  <div class="validate"></div>
-                </div>
-                <div class="col-md-6 form-group">
-                  <label for="email">Your Email</label>
-                  <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
-                  <div class="validate"></div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                <div class="validate"></div>
-              </div>
-              <div class="form-group">
-                <label for="message">Message</label>
-                <textarea class="form-control" name="message" rows="8" data-rule="required" data-msg="Please write something for us"></textarea>
-                <div class="validate"></div>
-              </div>
-              <div class="mb-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
-            </form>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Contact Us Section -->
+        <!-- ======= Contact Us Section ======= -->
 
   </main><!-- End #main -->
 
@@ -218,15 +122,15 @@
 
           <div class="col-lg-3 col-md-6 footer-info">
             <h3>Robotronics Club <br>IIT MANDI</h3>
-             
+
           </div>
 
           <div class="col-lg-2 col-md-6 footer-links">
-            
+
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
-            
+
           </div>
 
           <div class="col-lg-4 col-md-6 footer-newsletter">
@@ -239,7 +143,7 @@
 
     <div class="container">
       <div class="copyright">
-        made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
+        made with ❤️ on Express.js by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
