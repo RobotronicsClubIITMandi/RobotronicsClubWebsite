@@ -4,10 +4,25 @@ var Inventory = require('../models/inventory');
 var News = require('../models/news');
 var Projects = require('../models/projects');
 
+var async = require('async');
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  async.parallel({
+    inventory: function(callback){
+      Inventory.find({},callback);
+    },
+    projects: function(callback){
+      Projects.find({},callback);
+    },
+    news: function(callback){
+      News.find({},callback);
+    }
+  }, function(err, results){
+    console.log(results);
+    res.render('index',{news: results['news'], inventory: results['inventory'], projects: results['projects']});
+  });
 });
 
 //--------club inventory page----------
@@ -23,8 +38,8 @@ router.get('/inventory', function (req, res, next) {
 router.get('/notifications', function (req, res, next) {
   News.find({}).select('-_id').exec(function (err, result) {
     console.log(result);
-    res.render('notifications', { data: result })
-  })
+    res.render('notifications', { data: result });
+  });
 });
 
 
@@ -33,7 +48,7 @@ router.get('/projects', function (req, res, next) {
   Projects.find({}).select('-id').exec(function (err, result) {
     console.log(result);
     res.render('projects', { data: result});
-  })
+  });
 });
 
 router.get('/admin', function (req, res, next) {
