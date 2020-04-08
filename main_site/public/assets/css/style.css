@@ -65,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 997;
   transition: all 0.5s;
   padding: 10px 0;
-  background: #fff;
+  background:white;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
 
