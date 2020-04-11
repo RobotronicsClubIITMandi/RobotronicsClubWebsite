@@ -37,6 +37,12 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <style>
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+
   <!-- =======================================================
   * Template Name: Shuffle - v2.0.0
   * Template URL: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/
@@ -97,37 +103,33 @@
 
             <div class="content">
               <h3>Notifications</h3>
-              <a href="/news/create"><div class="btn btn-primary btn-lg">Add Notifications</div></a><br><br>
+              <a href="/news/create">
+                <div class="btn btn-primary btn-lg">Add Notifications</div>
+              </a><br><br>
             </div>
 
             <div class="accordion-list">
               <ul id="news_ki_list">
                 <% for( var index = 1; index <= news.length; index++ ) { %>
                 <li style="border: black 1px solid;">
-                  <table>
-                    <thead>
-                      <tr>
-                        <td style="padding-right: 50px">
-                          <a data-toggle="collapse" class="collapse" href="#accordion-list-2">
+
+                  <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
                     <span><%= index %> </span> <%= news[index-1].toJSON()['title'] %>
                     <i class="bx bx-chevron-down icon-show"></i>
                     <i class="bx bx-chevron-up icon-close"></i>
-                    
                   </a>
-                </td>
-                        <td>
-                                   <a href="/news/<%= news[index-1].toJSON()['_id'] %>/update"><div class="text-right"> <div class="btn btn-primary btn-sm" >update</div></div></a>
-                          </td>
-                            <td><a href="/news/<%= news[index-1].toJSON()['_id'] %>/delete"><div class="text-left"><div class="btn btn-primary btn-sm" >remove</div></div></a>
-                            </td>
-                          </tr>
-                        </thead>
-                      </table>
-                  
 
-                  <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
+                  <div id="accordion-list-<%= index %>" class="collapse" data-parent=".accordion-list">
                     <p><%= news[index-1].toJSON()['content'] %> </p>
                   </div>
+
+                  <a href="/news/<%= news[index-1].toJSON()['_id'] %>/update" style="display: inline;">
+                    <div class="btn btn-primary btn-sm" style="float: right; margin:10px;">update</div>
+                  </a>
+
+                  <a href="/news/<%= news[index-1].toJSON()['_id'] %>/delete" style="display: inline;">
+                    <div class="btn btn-primary btn-sm" style="float: right; margin:10px;">remove</div>
+                  </a>
 
                 </li>
                 <% } %>
@@ -179,62 +181,80 @@
                     <td><%= inventory[index-1].toJSON()['total'] %></td>
                     <td><%= inventory[index-1].toJSON()['available'] %></td>
                     <td><%= inventory[index-1].toJSON()['price'] %></td>
-                    <td><a href="/inventory/<%= inventory[index-1].toJSON()['_id'] %>/update"><div class="btn btn-primary">update</div></a></td>
-                    <td><a href="/inventory/<%= inventory[index-1].toJSON()['_id'] %>/delete"><div class="btn btn-primary">remove</div></a></td>
+                    <td><a href="/inventory/<%= inventory[index-1].toJSON()['_id'] %>/update">
+                        <div class="btn btn-primary">update</div>
+                      </a></td>
+                    <td><a href="/inventory/<%= inventory[index-1].toJSON()['_id'] %>/delete">
+                        <div class="btn btn-primary">remove</div>
+                      </a></td>
                   </tr>
                   <% } %>
                 </tbody>
               </table>
-              <a href="/inventory/create"><div class="btn btn-primary">Add</div></a>
+              <a href="/inventory/create">
+                <div class="btn btn-primary">Add</div>
+              </a>
             </div>
           </div>
         </div>
         <br><br>
-        </div>
-        </section>
+      </div>
+    </section>
 
     <!-- ======= Projects Section ======= -->
     <section id="projects" class="more-services section-bg">
       <div class="container">
         <div class="section-title">
-          <a href="/projects/create"><div class="btn btn-primary btn-lg">Add New Project</div></a>
+
           <h2>Our Projects</h2>
           <p>These are the ongoing projects.Older projects can be found on <nbsp><a href="#">Archive </a></p>
         </div>
 
         <div class="row">
-          <% for( var index = 1; index < projects.length; index++ ) { %>
+          <% for( let j = 0; j < projects.length; j++ ) { %>
 
           <div class="col-sm-6">
             <div class="card">
               <!-- <img src="assets/img/about.jpg" class="card-img-top" alt="..."> -->
               <div class="card-body">
-                <h5 class="card-title"><a href=""><%= projects[index].toJSON()['name'] %></a></h5>
+                <h5 class="card-title"><a href=""><%= projects[j].toJSON()['name'] %></a></h5>
                 <p class="card-text">
                   <i>
-                    <%= projects[index].toJSON()['description'] %>
+                    <%= projects[j].toJSON()['description'] %>
                   </i>
                 </p>
                 <p class="card-text">
                   project team:
                   <ul>
-                    <li style="text-align-last:left;">Mentor: <%= projects[index].toJSON()['mentor'] %></li>
-                    <li style="text-align-last:left;">Team: <%= projects[index].toJSON()['team'] %></li>
+                    <li style="text-align-last:left;">Mentor: <%= projects[j].toJSON()['mentor'] %></li>
+                    <li style="text-align-last:left;">Team: <%= projects[j].toJSON()['team'] %></li>
                   </ul>
                 </p>
                 <a href="#" class="btn">Explore more</a>
-                <a href="/projects/<%= projects[index-1].toJSON()['_id'] %>/remove"><div class="btn btn-primary">remove</div></a>
+                <a href="/projects/<%= projects[j].toJSON()['_id'] %>/remove">
+                  <div class="btn btn-primary">remove</div>
+                </a>
 
               </div>
             </div>
           </div>
 
           <% } %>
+          <a href="/projects/create">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="/projects/create">ADD Project</a></h5>
+                  <img src="/assets/img/slide/slide-1.jpg" alt="" style="width: 100%;position: relative;">
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
 
       </div>
     </section><!-- End More Services Section -->
-    
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

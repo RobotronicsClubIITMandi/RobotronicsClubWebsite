@@ -96,13 +96,13 @@
                 <% for( var index = 1; index <= data.length; index++ ) { %>
                   <li style="border: black 1px solid;">
 
-                    <a data-toggle="collapse" class="collapse" href="#accordion-list-2">
+                    <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
                       <span><%= index %> </span> <%= data[index-1].toJSON()['title'] %>
                       <i class="bx bx-chevron-down icon-show"></i>
                       <i class="bx bx-chevron-up icon-close"></i>
                     </a>
   
-                    <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
+                    <div id="accordion-list-<%= index %>" class="collapse" data-parent=".accordion-list">
                       <p><%= data[index-1].toJSON()['content'] %> </p>
                     </div>
   
