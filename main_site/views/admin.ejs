@@ -231,7 +231,7 @@
                   </ul>
                 </p>
                 <a href="#" class="btn">Explore more</a>
-                <a href="/projects/<%= projects[j].toJSON()['_id'] %>/remove">
+                <a href="/projects/<%= projects[j].toJSON()['_id'] %>/delete">
                   <div class="btn btn-primary">remove</div>
                 </a>
 
@@ -240,16 +240,16 @@
           </div>
 
           <% } %>
-          <a href="/projects/create">
             <div class="col-sm-6">
+              
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title"><a href="/projects/create">ADD Project</a></h5>
-                  <img src="/assets/img/slide/slide-1.jpg" alt="" style="width: 100%;position: relative;">
+                  <a href="/projects/create"><img src="/assets/img/slide/slide-1.jpg" alt="" style="width: 100%;position: relative;"></a>
                 </div>
               </div>
+              </a>
             </div>
-          </a>
         </div>
 
       </div>

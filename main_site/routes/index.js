@@ -65,7 +65,6 @@ router.get('/admin', function (req, res, next) {
       News.find({}, callback);
     }
   }, function (err, results) {
-    console.log(results);
     res.render('admin', { news: results['news'], inventory: results['inventory'], projects: results['projects'] });
   });
 });
