@@ -41,6 +41,15 @@
     .card {
       margin-bottom: 20px;
     }
+
+    #adder_image:hover {
+      transform: rotateY(180deg);
+      background-color: blue;
+    }
+
+    #adder_image {
+      transition: ease 0.2s;
+    }
   </style>
 
   <!-- =======================================================
@@ -230,7 +239,7 @@
                     <li style="text-align-last:left;">Team: <%= projects[j].toJSON()['team'] %></li>
                   </ul>
                 </p>
-                <a href="#" class="btn">Explore more</a>
+                <a href="/projects/<%= projects[j].toJSON()['_id'] %>/update" class="btn">Update</a>
                 <a href="/projects/<%= projects[j].toJSON()['_id'] %>/delete">
                   <div class="btn btn-primary">remove</div>
                 </a>
@@ -245,7 +254,7 @@
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title"><a href="/projects/create">ADD Project</a></h5>
-                  <a href="/projects/create"><img src="/assets/img/slide/slide-1.jpg" alt="" style="width: 100%;position: relative;"></a>
+                  <a href="/projects/create"><img src="/assets/img/slide/slide-1.jpg" id="adder_image" style="width: 100%;position: relative;"></a>
                 </div>
               </div>
               </a>

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body style="margin:5%">
+  <h1>Projects <%= action %> Page</h1>
     <form method="POST">
         <div class="form-group">
           <label for="exampleInputEmail1">Name</label>
@@ -17,21 +18,21 @@
         <div class="form-group">
             <label for="exampleInputEmail1">Mentor</label>
             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="mentor(s) for the project" name="mentor"
-            <% if (results) { %> value=<%= results[0].toJSON()['mentor'] %> <% } %>
+            <% if (results) { %> value="<%= results[0].toJSON()['mentor'] %>" <% } %>
                 <% if (del) { %>readonly <% } %>
                 required>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Team</label>
             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="team member name (as a string)" name="team"
-            <% if (results) { %> value=<%= results[0].toJSON()['team'] %> <% } %>
+            <% if (results) { %> value="<%= results[0].toJSON()['team'] %>" <% } %>
                 <% if (del) { %>readonly <% } %>
                 required>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Description</label>
             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="description" name="description"
-            <% if (results) { %> value=<%= results[0].toJSON()['description'] %> <% } %>
+            <% if (results) { %> value="<%= results[0].toJSON()['description'] %>" <% } %>
                 <% if (del) { %>readonly <% } %>
                 required>
           </div>
