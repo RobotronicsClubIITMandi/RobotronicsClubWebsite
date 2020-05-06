@@ -6,6 +6,20 @@ var Projects = require('../models/projects');
 
 var async = require('async');
 
+/* Middleware Function to check is Logged in */
+// For use where Admin login is required
+function isLoggedIn(req, res, next){
+  // Do any checks you want to do
+
+  // Check if the user is logged in or not
+  if(req.session.islogin){
+    return next();  // This continues the request as the user is logged in!
+  }
+
+  // Redirect if the user is not logged in
+  res.redirect('/admin/login');
+};
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -53,7 +67,7 @@ router.get('/projects', function (req, res, next) {
 
 
 //---------admin page-----------
-router.get('/admin', function (req, res, next) {
+router.get('/admin', isLoggedIn, function (req, res, next) {
   async.parallel({
     inventory: function (callback) {
       Inventory.find({}, callback);
@@ -65,9 +79,58 @@ router.get('/admin', function (req, res, next) {
       News.find({}, callback);
     }
   }, function (err, results) {
-    res.render('admin', { news: results['news'], inventory: results['inventory'], projects: results['projects'] });
+    res.render('admin', { news: results['news'], inventory: results['inventory'], projects: results['projects'], user: req.session.user });
   });
 });
+
+/* ---------- Admin Login Page --------- */
+router.get('/admin/login', function(req, res, next){
+  // Checking if it is loggined before or not
+  if(req.session.islogin){
+   res.redirect('/admin'); //If he is logged in
+  }
+  res.render('login.ejs', { flashMessage: "" });
+
+});
+
+router.post('/admin/login', function(req, res, next){
+  // Checking if it is loggined before or not
+  if(req.session.islogin){
+    res.redirect('/admin'); // If he is already logged in
+  }
+  // Login User
+  var un = req.body.username;
+  var passwd = req.body.password;
+  
+  // Now check condition
+  if(un==='admin' && passwd==='admin'){
+    req.session.islogin=true;
+    req.session.user=un;
+    res.redirect('/admin');  // Redirect him to admin page after successfull login
+  } else{
+    res.render('login.ejs', { flashMessage: "Invalid Login!" });
+  }
+});
+
+/* For admin to view his details stored */
+router.get('/admin/me', isLoggedIn, function(req, res, next){
+  res.status(200)
+    .json({ islogin: req.session.islogin, user: req.session.user });
+});
+
+/* -------- Logout ------------ */
+router.get('/admin/logout', function(req, res, next){
+  // If logined, then logout
+  if(req.session.islogin){
+    req.session = null;
+    console.log("session cleared");
+    res.redirect('/admin/login');
+  } else{
+    res.render('login.ejs', { flashMessage: "Please Login First!" });
+  }
+  
+});
+
 
 //----------inventory forms-----------
 router.get('/inventory/create', function (req, res, next) {

@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
@@ -16,6 +17,14 @@ var mongoDB = 'mongodb+srv://dipanshu231099:password231099$$@dipanshu-icwfw.mong
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+
+//setting the cookie-session
+app.set('trust proxy', 1) // trust first proxy
+app.use(cookieSession({
+  name: 'session',
+  keys: ['priyamsetenrgkss', 'priahjfajgbisanjfnaj']
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
