@@ -140,12 +140,24 @@
     time: 1000
   });
 
+  //This is for having the mentor at filtered first
+  window.addEventListener('DOMContentLoaded', (event) => {
+   	console.log('DOM fully loaded and parsed');
+
+    var portfolioIsotope = $('.portfolio-container').isotope({
+    	itemSelector: '.portfolio-item ',
+      	layoutMode: 'fitRows',
+      	filter: '.mentor'
+   	});
+
+    //console.log("This is executed!");
+  });
+
   // Porfolio isotope and filter
   $(window).on('load', function() {
     var portfolioIsotope = $('.portfolio-container').isotope({
       itemSelector: '.portfolio-item ',
-      layoutMode: 'fitRows',
-      filter: '.mentor'
+      layoutMode: 'fitRows'
     });
 
     $('#portfolio-flters li').on('click', function() {
