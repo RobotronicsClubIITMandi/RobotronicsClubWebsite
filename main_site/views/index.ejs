@@ -160,7 +160,7 @@
             
             <div class="accordion-list">
               <ul id="news_ki_list">
-                <% for( var index = 1; index <= news.length; index++ ) { %>
+                <% for( var index = 1; index <= news.length && index<4; index++ ) { %>
                   <li style="border: black 1px solid;">
 
                     <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
@@ -175,10 +175,17 @@
   
                   </li>
                 <% } %>
+                <br>
+                <% if (news.length>3) {%>
+                  <li style="text-align:center">
+                        <a href="/notifications" class="btn">Show All</a>
+                  </li>
+                <% } %>
               </ul>
             </div>
 
           </div>
+          
 
           
           <div class="col-sm-6" >
@@ -249,11 +256,11 @@
       <div class="container">
         <div class="section-title">
           <h2>Our Projects</h2>
-          <p>These are the ongoing projects.Older projects can be found on <nbsp><a href="#">Archive </a></p>
+          <p>These are the ongoing projects.Older projects can be found on &nbsp;<a href="#">Archive </a></p>
         </div>
 
         <div class="row">
-          <% for( let index = 0; index < projects.length; index++ ) { %>
+          <% for( let index = 0; index < projects.length && index < 4; index++ ) { %>
         
             <div class="col-sm-6">
               <div class="card">
@@ -279,6 +286,11 @@
   
             <% } %>
         </div>
+        <% if (projects.length>4) {%>
+          <div style="text-align:center;" >
+              <a href="/projects" class="btn">Show All</a>
+          </div>
+        <% } %>
 
       </div>
     </section><!-- End More Services Section -->
@@ -855,5 +867,10 @@
 
   
 </body>
+<style>
+  .card{
+    margin-bottom:30px !important;
+  }
+</style>
 
 </html>

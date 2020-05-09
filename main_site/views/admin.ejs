@@ -39,7 +39,7 @@
 
   <style>
     .card {
-      margin-bottom: 20px;
+      margin-bottom: 30px!important;
     }
 
     #adder_image:hover {
@@ -111,7 +111,7 @@
 
           <div class="col-sm-6">
 
-            <div class="content">
+            <div class="content" style="padding-top:0;">
               <h3>Notifications</h3>
               <a href="/news/create">
                 <div class="btn btn-primary btn-lg">Add Notifications</div>
@@ -120,7 +120,7 @@
 
             <div class="accordion-list">
               <ul id="news_ki_list">
-                <% for( var index = 1; index <= news.length; index++ ) { %>
+                <% for( var index = 1; index <= news.length && index <=10; index++ ) { %>
                 <li style="border: black 1px solid;">
 
                   <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
@@ -142,6 +142,12 @@
                   </a>
 
                 </li>
+                <% } %>
+                <br>
+                <% if (news.length>10) {%>
+                  <li style="text-align:center">
+                        <a href="/notifications" class="btn">Show All</a>
+                  </li>
                 <% } %>
               </ul>
             </div>
@@ -253,9 +259,9 @@
             <div class="col-sm-6">
               
               <div class="card">
-                <div class="card-body">
+                <div class="card-body" style="height:258px;">
                   <h5 class="card-title"><a href="/projects/create">ADD Project</a></h5>
-                  <a href="/projects/create"><img src="/assets/img/slide/slide-1.jpg" id="adder_image" style="width: 100%;position: relative;"></a>
+                  <a href="/projects/create"><img src="/assets/img/slide/slide-1.jpg" id="adder_image" style="height:175px;width: 75%;position: relative;"></a>
                 </div>
               </div>
               </a>
