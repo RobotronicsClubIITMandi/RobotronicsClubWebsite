@@ -111,7 +111,7 @@
 
           <div class="col-sm-6">
 
-            <div class="content">
+            <div class="content" style="padding-top:0;">
               <h3>Notifications</h3>
               <a href="/news/create">
                 <div class="btn btn-primary btn-lg">Add Notifications</div>
@@ -120,7 +120,7 @@
 
             <div class="accordion-list">
               <ul id="news_ki_list">
-                <% for( var index = 1; index <= news.length; index++ ) { %>
+                <% for( var index = 1; index <= news.length && index <=10; index++ ) { %>
                 <li style="border: black 1px solid;">
 
                   <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
@@ -142,6 +142,12 @@
                   </a>
 
                 </li>
+                <% } %>
+                <br>
+                <% if (news.length>10) {%>
+                  <li style="text-align:center">
+                        <a href="/notifications" class="btn">Show All</a>
+                  </li>
                 <% } %>
               </ul>
             </div>
