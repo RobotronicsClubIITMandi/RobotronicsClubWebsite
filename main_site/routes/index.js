@@ -3,6 +3,7 @@ var router = express.Router();
 var Inventory = require('../models/inventory');
 var News = require('../models/news');
 var Projects = require('../models/projects');
+var nodeMailer = require('nodemailer')
 
 var async = require('async');
 
@@ -317,4 +318,52 @@ router.post('/projects/:id/update', function (req, res, next) {
   });
 });
 
+router.post('/sendemail', function(req, res){
+  var message = ""
+  let mailer = nodeMailer.createTransport({
+      host:'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+          user: 'roboticsiitmandi123@gmail.com', // Test Email
+          pass: 'robotics@123'
+      }
+  });
+  let mailOptions = {
+    from: '"Robotronics" <roboticsiitmandi@gmail.com>',
+    to: req.body.email, 
+    subject: "Message Recieved",
+    html: 'Your Message have been recieved.<br>Regards<br><b>Robotronivs Club,</b><br><b>IIT Mandi</b>'
+  };
+  let mailOptions1 = { // This is the section where email to send details go.
+    from: '"Robotronics" <roboticsiitmandi@gmail.com>',
+    to: "rrk15012002@gmail.com", 
+    subject: "You have got an message", 
+    html: `<b>From:</b> ${req.body.email}<br> <b>Name:</b> ${req.body.name}<br> <b>Subject:</b> ${req.body.subject}<br> <b>Message:</b> ${req.body.message}`
+    
+  };
+
+  mailer.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          message = "NotOK"
+          console.log(error);
+          return res.send(message);
+      }
+      console.log('Message %s sent: %s', info.messageId, info.response);
+      message = "OK"
+      res.send(message)
+    });
+
+  mailer.sendMail(mailOptions1, (err, info)=>{
+    if(err){
+      nessage = "NotOK"
+      console.log(err)
+      return res.send(message)
+    }
+    console.log('Message %s sent: %s', info.messageId, info.response)
+    message = "OK"
+    res.send(message)
+  })
+  
+})
 module.exports = router;
