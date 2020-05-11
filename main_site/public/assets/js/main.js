@@ -142,17 +142,18 @@
 
   // Porfolio isotope and filter
   $(window).on('load', function() {
-    var portfolioIsotope = $('.portfolio-container').isotope({
-      itemSelector: '.portfolio-item ',
-      layoutMode: 'fitRows',
-      filter: '.mentor'
-    });
-
     // Hide the Pre-Loader and show the main content
     document.getElementById("loader").style.display = "none";
     document.getElementById("show-after-load").style.display = "block";
     $("body").css({"background":"white"});
     //console.log("successfully executed");
+
+    // For the team to which to be shown first
+    var portfolioIsotope = $('.portfolio-container').isotope({
+      filter: '.mentor',
+      itemSelector: '.portfolio-item ',
+      layoutMode: 'fitRows'
+    });
 
     // Click action to the team section
     $('#portfolio-flters li').on('click', function() {
