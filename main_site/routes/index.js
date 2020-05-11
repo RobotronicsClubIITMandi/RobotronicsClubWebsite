@@ -351,7 +351,6 @@ router.post('/sendemail', function(req, res){
       }
       console.log('Message %s sent: %s', info.messageId, info.response);
       message = "OK"
-      res.send(message)
     });
 
   mailer.sendMail(mailOptions1, (err, info)=>{
