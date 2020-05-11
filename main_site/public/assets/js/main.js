@@ -148,6 +148,13 @@
       filter: '.mentor'
     });
 
+    // Hide the Pre-Loader and show the main content
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("show-after-load").style.display = "block";
+    $("body").css({"background":"white"});
+    //console.log("successfully executed");
+
+    // Click action to the team section
     $('#portfolio-flters li').on('click', function() {
       $("#portfolio-flters li").removeClass('filter-active');
       $(this).addClass('filter-active');

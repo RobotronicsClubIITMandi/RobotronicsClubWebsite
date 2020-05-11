@@ -1,0 +1,35 @@
+#loading-image {
+  width:500px;
+}
+
+#loader {
+
+  margin-top: 15%;
+  -webkit-animation: fadeinout 3s linear infinite;
+  animation: fadeinout 3s linear infinite;
+}
+
+/* For Safari */
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@media only screen and (max-width: 800px) {
+  #loading-image {
+    width:200px;
+  }
+
+  #loader {
+
+    margin-top: 30%;
+    -webkit-animation: fadeinout 3s linear infinite;
+    animation: fadeinout 3s linear infinite;
+  }
+
+}
