@@ -8,16 +8,27 @@
   <title>Robotronics Club, IIT MANDI</title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
+  <!-- <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script> -->
 
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script> -->
+
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <!-- Favicons -->
   <link href="assets/img/logo.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
   <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
@@ -25,6 +36,21 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .card {
+      margin-bottom: 30px!important;
+    }
+
+    #adder_image:hover {
+      transform: rotateY(180deg);
+      background-color: blue;
+    }
+
+    #adder_image {
+      transition: ease 0.2s;
+    }
+  </style>
 
   <!-- =======================================================
   * Template Name: Shuffle - v2.0.0
@@ -36,24 +62,28 @@
 
 <body>
 
+
+
   <!-- ======= Header ======= -->
   <header id="header">
     <div class="container d-flex">
 
+      <!-- To go to the Main Website -->
       <div class="logo mr-auto">
-      	<a href="index.html"><img src="assets/img/logo.png" alt="" style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
-       
-        
+        <a href="/"><img src="assets/img/logo.png" alt=""
+            style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
+
+
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li ><a href="/inventory">Club-Inventory</a></li>
-          <li><a href="/notifications">Notifications</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li><a href="#portfolio">Achievements</a></li>
-          <li><a href="#team">Team</a></li>
-          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#header">Home</a></li>
+          <li><a href="#calender">Calender</a></li>
+          <li><a href="#services">Inventory</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="/">View Website</a></li>
+          <li><a href="/admin/logout">Logout</a></li>
 
         </ul>
       </nav><!-- .nav-menu -->
@@ -68,114 +98,178 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>About Us</h2>
-          <p><%= product %> </p>
+          <h2>Admin Page</h2>
+          <h5>Welcome <%= user %></h5>
         </div>
-        </section>
+    </section>
 
     <!-- ======= Calender and notification stuff ======= -->
-    <section class="info-box py-0">
-      <div class="container">
+    <section id="calender" class="info-box section-bg">
+      <div class="container-fluid">
 
         <div class="row">
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
 
-            <div class="content">
+            <div class="content" style="padding-top:0;">
               <h3>Notifications</h3>
-             
+              <a href="/news/create">
+                <div class="btn btn-primary btn-lg">Add Notifications</div>
+              </a><br><br>
             </div>
 
             <div class="accordion-list">
-              <ul>
-                <li>
-                  <a data-toggle="collapse" class="collapse" href="#accordion-list-1"><span>01</span> India News <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list-1" class="collapse show" data-parent=".accordion-list">
-                    <p>
-                      india main lockdown ka ailan kiya modi ne... janta ne maanga raashan paani... rahul gandhi ko pada dora
-                    </p>
+              <ul id="news_ki_list">
+                <% for( var index = 1; index <= news.length && index <=10; index++ ) { %>
+                <li style="border: black 1px solid;">
+
+                  <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
+                    <span><%= index %> </span> <%= news[index-1].toJSON()['title'] %>
+                    <i class="bx bx-chevron-down icon-show"></i>
+                    <i class="bx bx-chevron-up icon-close"></i>
+                  </a>
+
+                  <div id="accordion-list-<%= index %>" class="collapse" data-parent=".accordion-list">
+                    <p><%= news[index-1].toJSON()['content'] %> </p>
                   </div>
+
+                  <a href="/news/<%= news[index-1].toJSON()['_id'] %>/update" style="display: inline;">
+                    <div class="btn btn-primary btn-sm" style="float: right; margin:10px;">update</div>
+                  </a>
+
+                  <a href="/news/<%= news[index-1].toJSON()['_id'] %>/delete" style="display: inline;">
+                    <div class="btn btn-primary btn-sm" style="float: right; margin:10px;">remove</div>
+                  </a>
+
                 </li>
-
-                <li>
-                  <a data-toggle="collapse" href="#accordion-list-2" class="collapsed"><span>02</span> Khargosh vs turtle today <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
-                    <p>
-                      Aao khela khelein.
-                    </p>
-                  </div>
-                </li>
-
-                <li>
-                  <a data-toggle="collapse" href="#accordion-list-3" class="collapsed"><span>03</span> 5 crore  <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list-3" class="collapse" data-parent=".accordion-list">
-                    <p>
-                      kahaan hain ?
-                    </p>
-                  </div>
-                </li>
-
-                <a href="/notifications">Notifications and calendar >> </a>
-
+                <% } %>
+                <br>
+                <% if (news.length>10) {%>
+                  <li style="text-align:center">
+                        <a href="/notifications" class="btn">Show All</a>
+                  </li>
+                <% } %>
               </ul>
             </div>
 
           </div>
+          <div class="col-sm-6">
+            <iframe
+              src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=2&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FKolkata&amp;src=cHJhdHl1c2hnYXVyYXZnb0BnbWFpbC5jb20&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=Z3lta2hhbmFpaXRtYW5kaUBnbWFpbC5jb20&amp;color=%234285F4&amp;color=%2333B679&amp;color=%230B8043&amp;color=%23AD1457&amp;showTitle=1&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;title=Upcoming%20Events"
+              style="border-width:0;font-family: Arial, Helvetica, sans-serif;" width="800" height="600" frameborder="0"
+              scrolling="no"></iframe>
+          </div>
+
         </div>
 
       </div>
     </section><!-- End Info Box Section -->
 
-
-<!-- ======= Our Projects Section ======= -->
+    <!-- ======= Our Inventory Section ======= -->
     <section id="services" class="services">
       <div class="container">
 
         <div class="section-title">
+          <h2>Availability of material</h2>
+          <p>components available right now</p>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-image">
+                <thead>
+                  <tr>
+                    <th scope="col">S.no.</th>
+                    <th scope="col">Component Name</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">available</th>
+                    <th scope="col">price</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for( var index = 1; index <= inventory.length; index++ ) { %>
+                  <tr>
+                    <th scope="row"><%= index %></th>
+                    <td><%= inventory[index-1].toJSON()['name'] %></td>
+                    <td><%= inventory[index-1].toJSON()['total'] %></td>
+                    <td><%= inventory[index-1].toJSON()['available'] %></td>
+                    <td><%= inventory[index-1].toJSON()['price'] %></td>
+                    <td><a href="/inventory/<%= inventory[index-1].toJSON()['_id'] %>/update">
+                        <div class="btn btn-primary">update</div>
+                      </a></td>
+                    <td><a href="/inventory/<%= inventory[index-1].toJSON()['_id'] %>/delete">
+                        <div class="btn btn-primary">remove</div>
+                      </a></td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+              <a href="/inventory/create">
+                <div class="btn btn-primary">Add</div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <br><br>
+      </div>
+    </section>
+
+    <!-- ======= Projects Section ======= -->
+    <section id="projects" class="more-services section-bg">
+      <div class="container">
+        <div class="section-title">
+
           <h2>Our Projects</h2>
           <p>These are the ongoing projects.Older projects can be found on <nbsp><a href="#">Archive </a></p>
         </div>
 
-     <!-- ======= Projects Section ======= -->
-    <section class="more-services section-bg">
-      <div class="container">
-
         <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
+          <% for( let j = 0; j < projects.length; j++ ) { %>
+
+          <div class="col-sm-6">
             <div class="card">
-              <img src="assets/img/more-service-1.jpg" class="card-img-top" alt="...">
+              <!-- <img src="assets/img/about.jpg" class="card-img-top" alt="..."> -->
               <div class="card-body">
-                <h5 class="card-title"><a href="">Project1</a></h5>
-                <p class="card-text">About project1</p>
-                <a href="/projects" class="btn">Explore more</a>
+                <h5 class="card-title"><a href=""><%= projects[j].toJSON()['name'] %></a></h5>
+                <p class="card-text">
+                  <i>
+                    <%= projects[j].toJSON()['description'] %>
+                  </i>
+                </p>
+                <p class="card-text">
+                  project team:
+                  <ul>
+                    <li style="text-align-last:left;">Mentor: <%= projects[j].toJSON()['mentor'] %></li>
+                    <li style="text-align-last:left;">Team: <%= projects[j].toJSON()['team'] %></li>
+                  </ul>
+                </p>
+                <a href="/projects/<%= projects[j].toJSON()['_id'] %>/update" class="btn">Update</a>
+                <a href="/projects/<%= projects[j].toJSON()['_id'] %>/delete">
+                  <div class="btn btn-primary">remove</div>
+                </a>
+
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">Project2</a></h5>
-                <p class="card-text">About project2</p>
-                <a href="/projects" class="btn">Explore more</a>
+
+          <% } %>
+            <div class="col-sm-6">
+              
+              <div class="card">
+                <div class="card-body" style="height:258px;">
+                  <h5 class="card-title"><a href="/projects/create">ADD Project</a></h5>
+                  <a href="/projects/create"><img src="/assets/img/slide/slide-1.jpg" id="adder_image" style="height:175px;width: 75%;position: relative;"></a>
+                </div>
               </div>
+              </a>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">Project3</a></h5>
-                <p class="card-text">About project3</p>
-                <a href="/projects" class="btn">Explore more</a>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div>
     </section><!-- End More Services Section -->
-<br><br>
 
   </main><!-- End #main -->
 
@@ -187,15 +281,15 @@
 
           <div class="col-lg-3 col-md-6 footer-info">
             <h3>Robotronics Club <br>IIT MANDI</h3>
-             
+
           </div>
 
           <div class="col-lg-2 col-md-6 footer-links">
-            
+
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
-            
+
           </div>
 
           <div class="col-lg-4 col-md-6 footer-newsletter">
@@ -221,7 +315,7 @@
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
+  <script src="assets/js/database.js"></script>
   <!-- Vendor JS Files -->
   <script src="assets/vendor/jquery/jquery.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -235,6 +329,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
 
 </body>
 

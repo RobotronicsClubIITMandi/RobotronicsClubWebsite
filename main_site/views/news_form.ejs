@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body style="margin:5%">
+  <h1>Notifications <%= action %> Page</h1>
+    <form method="POST">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Title</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="title" name="title"  <% if (results) { %> value="<%= results[0].toJSON()['title'] %>" <% } %> <% if (del) { %>readonly <% } %> required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Content</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Content" name="content"
+            <% if (results) { %> value="<%= results[0].toJSON()['content'] %>" <% } %> <% if (del) { %>readonly <% } %> required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Date of creation</label>
+            <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="date of showing when it was created" name="date_created"
+            <% if (results) { %> value="<%= results[0].toJSON()['date_created'] %>" <% } %> <% if (del) { %>readonly <% } %> required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit <% if (del) { %> to delete <% } %></button>
+      </form>
+</body>
+</html>

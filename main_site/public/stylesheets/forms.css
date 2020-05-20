@@ -1,0 +1,57 @@
+/* --- Stylesheet for Login Page --- */
+/* For submit button */
+#submit-button { 
+    background-color: #17b8b8; 
+    color: white; 
+    margin: 4px 0; 
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none; 
+    cursor: pointer;
+    border-radius: 0.25em;
+} 
+
+/* For making the box for login */
+.login-form-body{
+    margin-top: 10% !important; 
+    box-sizing: border-box;
+    width: 400px;
+    background-color: rgba(0, 255, 255, 0.287);
+    border-radius: 0.75em;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+/* Making good for mobiles */
+@media only screen and (max-width: 500px) {
+    /* For making the box for login */
+    .login-form-body{
+        width: 80%;
+        padding-left: 8px;
+        padding-right: 8px;
+        
+    }
+}
+
+/* For Login Heading */
+#login-heading {
+    margin-bottom: 32px !important;
+}
+
+/* For Flash messages */ 
+#flash-messages{
+    color: white;
+    background-color:red;
+    border-radius: 0.5em;
+    text-align: center;
+    padding-top: 4px;
+    margin-top:16px;
+}

@@ -26,6 +26,12 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <style>
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+
   <!-- =======================================================
   * Template Name: Shuffle - v2.0.0
   * Template URL: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/
@@ -61,13 +67,6 @@
 
   <main id="main">
 
-    
-
-   
-
-
-
-
 <!-- ======= Our Projects Section ======= -->
     <section id="services" class="services">
       <div class="container">
@@ -82,37 +81,33 @@
       <div class="container">
 
         <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
+          <% for( let index = 0; index < data.length; index++ ) { %>
+        
+          <div class="col-sm-6">
             <div class="card">
-              <img src="assets/img/more-service-1.jpg" class="card-img-top" alt="...">
+              <!-- <img src="assets/img/about.jpg" class="card-img-top" alt="..."> -->
               <div class="card-body">
-                <h5 class="card-title"><a href="">Project1</a></h5>
-                <p class="card-text">About project1</p>
+                <h5 class="card-title"><a href=""><%= data[index].toJSON()['name'] %></a></h5>
+                <p class="card-text">
+                  <i>
+                    <%= data[index].toJSON()['description'] %>
+                  </i>
+                </p>
+                <p class="card-text">
+                  project team: 
+                  <ul>
+                    <li style="text-align-last:left;">Mentor: <%= data[index].toJSON()['mentor'] %></li>
+                    <li style="text-align-last:left;">Team: <%= data[index].toJSON()['team'] %></li>
+                  </ul>
+                </p>
                 <a href="#" class="btn">Explore more</a>
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">Project2</a></h5>
-                <p class="card-text">About project2</p>
-                <a href="#" class="btn">Explore more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="card">
-              <img src="assets/img/more-service-3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">Project3</a></h5>
-                <p class="card-text">About project3</p>
-                <a href="#" class="btn">Explore more</a>
-              </div>
-            </div>
-          </div>
-        </div>
+
+          <% } %>
+          
+          
 
       </div>
     </section><!-- End More Services Section -->

@@ -80,7 +80,6 @@
                 <thead>
                   <tr>
                     <th scope="col">S.no.</th>
-                    <th scope="col">Image</th>
                     <th scope="col">Component Name</th>
                     <th scope="col">Total</th>
                     <th scope="col">available</th>
@@ -91,15 +90,10 @@
                   <% for( var index = 1; index <= array.length; index++ ) { %>
                   <tr>
                     <th scope="row"><%= index %></th>
-                    <td class="w-25">
-                      <img
-                        src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg"
-                        class="img-fluid img-thumbnail" alt="Sheep">
-                    </td>
-                    <td><%= array[index-1].toJSON()['component_name'] %></td>
-                    <td><%= array[index-1].toJSON()['total_quantity'] %></td>
-                    <td><%= array[index-1].toJSON()['component_quantity'] %></td>
-                    <td><%= array[index-1].toJSON()['component_price'] %></td>
+                    <td><%= array[index-1].toJSON()['name'] %></td>
+                    <td><%= array[index-1].toJSON()['total'] %></td>
+                    <td><%= array[index-1].toJSON()['available'] %></td>
+                    <td><%= array[index-1].toJSON()['price'] %></td>
                   </tr>
                   <% } %>
                 </tbody>
@@ -108,6 +102,8 @@
           </div>
         </div>
         <br><br>
+        </div>
+        </section>
 
 
         <!-- ======= Contact Us Section ======= -->

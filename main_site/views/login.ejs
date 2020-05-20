@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Title -->
+        <title> Login </title>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta content="" name="descriptison">
+        <meta content="" name="keywords">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <!-- Favicons -->
+        <link href="assets/img/logo.png" rel="icon">
+        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+        <!-- Style sheet for form -->
+        <link rel='stylesheet' href='/stylesheets/forms.css' />
+
+    </head>
+    <body>
+        <!-- Getting Flash Messages -->
+        <% if(flashMessage){ %>
+            <div id="flash-messages" class="container">
+                <p> <%= flashMessage %> </p>
+            </div>
+        <% } %>
+
+        <div>
+            <!-- Form for Login -->
+            <form action='/admin/login' method="post" class="login-form-body">
+                <!-- Heading -->
+                <div class="placeholder" id='login-heading'>
+                    <h1><center> Admin Login </center></h1>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group form-text">
+                    <input id="login-username" type="text" class="form-control input-block input-contrast" placeholder="Username" name="username" value="" required>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group form-text">
+                    <input id="login-password" type="password" class="form-control input-block input-contrast" placeholder="Password" name="password" value="" required>
+                </div>
+
+                <!-- Submit Button -->
+                <div><center>
+                    <input id="submit-button" type="submit" value="Submit"></center>
+                 </div>
+            </form>
+        </div>
+    </body>
+</html>
