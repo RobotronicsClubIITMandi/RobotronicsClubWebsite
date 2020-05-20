@@ -143,10 +143,15 @@
   // Porfolio isotope and filter
   $(window).on('load', function() {
     // Hide the Pre-Loader and show the main content
-    document.getElementById("loader").style.display = "none";
-    document.getElementById("show-after-load").style.display = "block";
-    $("body").css({"background":"white"});
-    //console.log("successfully executed");
+    try{
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("show-after-load").style.display = "block";
+      $("body").css({"background":"white"});
+      //console.log("successfully executed");
+    }catch(err){
+      console.log("This error comes where prelaoder is not needed");
+      console.log(err);
+    }
 
     // For the team to which to be shown first
     var portfolioIsotope = $('.portfolio-container').isotope({
