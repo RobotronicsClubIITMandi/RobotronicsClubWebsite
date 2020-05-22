@@ -7,10 +7,12 @@ var issuesSchema = new Schema(
         name: {type: String, required: true, max: 100},
         email: {type: String, required: true},
         date_of_issue: {type: Date, required: true},
+        status: {type: String, required: true},  // "pending","returned"
         items: {
             type: Map,
             of: String,
-            default: {}
+            default: {},
+            required: true
         }
     }
 );
