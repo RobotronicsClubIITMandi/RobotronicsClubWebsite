@@ -379,6 +379,7 @@ router.post('/issues/create', function (req, res, next) {
  */
 router.post('/issues/myissues', function(req, res, next) {
   var email = req.body.email;
+  console.log(email);
   Issues.find({ email: email}).exec(function (err, result) {
     if (err) {
       console.log(err);

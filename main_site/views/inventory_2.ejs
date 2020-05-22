@@ -34,6 +34,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  
 
   <!-- =======================================================
   * Template Name: Shuffle - v2.0.0
@@ -116,11 +117,16 @@
               console.log('User signed out.');
             });
 
+            // Used overall variables
+            window.email = "";
+            window.uname = "";
+
             // Important for UI for botht signOut and signIn
             // Set the display of the sign in and sign out buttons
             document.getElementById('signInButton').style.display = "block";
             document.getElementById('signOutButton').style.display = "none";
             document.getElementById('signOutButtonStyle').style.display = "none";
+            document.getElementById('issue-button-div').style.display = "none";
 
             // Show the user name so that, he can be sure that he is successfully signed in!
             var showUser = document.getElementById('welcome-user');
@@ -136,20 +142,25 @@
             // Now get the data and show the required details
             
             var profile = googleUser.getBasicProfile();
+
+            window.email = profile.getEmail();
+            window.uname = profile.getName();
+
             //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
+            console.log('Name: ' + window.uname);
             //console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            console.log('Email: ' + window.email); // This is null if the 'email' scope is not present.
 
             // Set the display of the sign in and sign out buttons
             document.getElementById('signInButton').style.display = "none";
             document.getElementById('signOutButton').style.display = "block";
             document.getElementById('signOutButtonStyle').style.display = "block";
+            document.getElementById('issue-button-div').style.display = "block";
 
             // Show the user name so that, he can be sure that he is successfully signed in!
             var showUser = document.getElementById('welcome-user');
             showUser.style.display="block";
-            showUser.innerHTML += 'Welcome '+profile.getName();
+            showUser.innerHTML += 'Welcome '+window.uname;
           }
         </script>
         
@@ -186,8 +197,8 @@
               </table>
             </div>
           </div>
-          <div class="issue-button">
-            <Button type="button" class="btn btn-success" onclick="sendIssueRequestToServer()">Issue Items</Button>
+          <div id="issue-button-div">
+            <Button id="issue-button" type="button" class="btn btn-success" onclick="sendIssueRequestToServer()">Issue Items</Button>
           </div>
         </div>
         <br><br>
@@ -196,8 +207,32 @@
 
     <script>
       function sendIssueRequestToServer(){
-        console.log("Send To Server!");
-        
+        console.log("SEnding request!");
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+          }
+        };
+
+        // The body parameters to send
+        var reqbody = {
+          name: window.uname,
+          email: window.email,
+          items: {
+            motor: 3,
+            "ir sensor": 2,
+            "asdf": 4
+          }
+        };
+        console.log(reqbody);
+
+        xhttp.open("POST", "/issues/create", true);
+        //Send the proper header information along with the request
+        xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
+
+        xhttp.send(JSON.stringify(reqbody));
+
       }
     </script>
 
