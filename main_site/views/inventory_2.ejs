@@ -6,6 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <!-- Google Sign in meta tags -->
+  <!-- Take care of whitelist urls -->
   <meta name="google-signin-client_id" content="520362272726-v179ufso0lqui81s8uhnhkngfr8k26qn.apps.googleusercontent.com">
 
   <!-- googel sign in script -->
@@ -78,7 +79,7 @@
           <h2>Availability of material</h2>
 
           <div style="margin-left: auto; margin-right: auto; max-width: 400px; padding: 8px;">
-            <span style="font-size:x-large;">Want to Issue?</span>
+            <span style="font-size:x-large;">Sign in to Issue</span>
             <div id="signInButton" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="float: right; margin-right: 8px;"></div>
             
             
@@ -135,9 +136,9 @@
             // Now get the data and show the required details
             
             var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
             console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
+            //console.log('Image URL: ' + profile.getImageUrl());
             console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
             // Set the display of the sign in and sign out buttons
@@ -161,8 +162,8 @@
                     <th scope="col">S.no.</th>
                     <th scope="col">Component Name</th>
                     <th scope="col">Total</th>
-                    <th scope="col">available</th>
-                    <th scope="col">price</th>
+                    <th scope="col">Available</th>
+                    <th scope="col" id="issue-cl-header">Items to Issue</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -172,18 +173,33 @@
                     <td><%= array[index-1].toJSON()['name'] %></td>
                     <td><%= array[index-1].toJSON()['total'] %></td>
                     <td><%= array[index-1].toJSON()['available'] %></td>
-                    <td><%= array[index-1].toJSON()['price'] %></td>
+                    <td><select name="issue-count" id="issue-row-count">
+                      <!-- Create Options -->
+                      <option value=0>0</option>
+                      <% for(var j = 1; j<= array[index-1].toJSON()['available']; j++ ) { %>
+                        <option value="<%= j %>"> <%= j %> </option>
+                      <% } %>
+                    </select></td>
                   </tr>
                   <% } %>
                 </tbody>
               </table>
             </div>
           </div>
+          <div class="issue-button">
+            <Button type="button" class="btn btn-success" onclick="sendIssueRequestToServer()">Issue Items</Button>
+          </div>
         </div>
         <br><br>
-        </div>
-        </section>
+      </div>
+    </section>
 
+    <script>
+      function sendIssueRequestToServer(){
+        console.log("Send To Server!");
+        
+      }
+    </script>
 
         <!-- ======= Contact Us Section ======= -->
 

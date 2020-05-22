@@ -3,6 +3,7 @@ var router = express.Router();
 var Inventory = require('../models/inventory');
 var News = require('../models/news');
 var Projects = require('../models/projects');
+var Issues = require('../models/issues');
 
 var async = require('async');
 
@@ -314,6 +315,91 @@ router.post('/projects/:id/update', function (req, res, next) {
   Projects.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
     if (err) { return next(err); }
     res.redirect('../../admin');
+  });
+});
+
+/* REST APIs to handle Issues */
+/*
+/issues/create
+/issues/all
+/issues/myissues
+/issues/delete
+*/
+
+/**
+ * API TO create a new issue
+ * Send name, email, items in the JSON Body in the POST Request
+ * Returns result in the form of JSON {success, msg}
+ *  */
+router.post('/issues/create', function (req, res, next) {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  var component = new Issues(
+    {
+      name: req.body.name,
+      email: req.body.email,
+      //date_of_issue: "2020-05-22",
+      date_of_issue:  yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made
+      items: req.body.items // This should be in the form of HashMap
+    }
+  );
+  component.save(function (err) {
+    if (err) {
+      console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    res.json( { success: 1, msg: "success"} );
+  });
+});
+
+/**
+ * API To view all the current issues which are made
+ * Response: {success, msg}
+ * (To add admin only afterwards) // Right now only testing
+ */
+router.get('/issues/all', function(req, res, next) {
+  Issues.find({}).exec(function (err, result) {
+    if (err) {
+      console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    console.log(result);
+    res.json({success: 1, msg: result});
+  });
+});
+
+/**
+ * API To view all the pending issues which are made by the user
+ * Response: {success, msg}
+ */
+router.post('/issues/myissues', function(req, res, next) {
+  var email = req.body.email;
+  Issues.find({ email: email}).exec(function (err, result) {
+    if (err) {
+      console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    console.log(result);
+    res.json({success: 1, msg: result});
+  });
+});
+
+/**
+ * API To return a items (Very Important)
+ * Response: {success, msg}
+ * (To add admin only afterwards) // Right now only testing
+ */
+router.post('/issues/:id/delete', function (req, res, next) {
+  Issues.findByIdAndRemove(req.params.id, function deleteComponent(err) {
+    if (err) {
+      console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    // Success - Return
+    res.json({ success: 1, msg: "Removed" });
   });
 });
 
