@@ -34,6 +34,19 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    @media only screen and (max-width: 360px) { /* Set this experimentally */
+      .not-in-mobile { 
+        display: none;
+      }
+    }
+    @media only screen and (max-width: 450px) { /* Set this experimentally */
+      .table { 
+        margin-left: -26px;
+      }
+    }
+  </style>
   
 
   <!-- =======================================================
@@ -170,17 +183,17 @@
               <table class="table table-image">
                 <thead>
                   <tr>
-                    <th scope="col">S.no.</th>
-                    <th scope="col">Component Name</th>
+                    <th scope="col" class="not-in-mobile">S.no.</th>
+                    <th scope="col">Component</th>
                     <th scope="col">Total</th>
                     <th scope="col">Available</th>
-                    <th scope="col" id="issue-cl-header">Items to Issue</th>
+                    <th scope="col" id="issue-cl-header">Issue</th>
                   </tr>
                 </thead>
                 <tbody>
                   <% for( var index = 1; index <= array.length; index++ ) { %>
                   <tr>
-                    <th scope="row"><%= index %></th>
+                    <th scope="row" class="not-in-mobile"><%= index %></th>
                     <td><%= array[index-1].toJSON()['name'] %></td>
                     <td><%= array[index-1].toJSON()['total'] %></td>
                     <td><%= array[index-1].toJSON()['available'] %></td>
@@ -199,7 +212,7 @@
               </table>
             </div>
           </div>
-          <div id="issue-button-div">
+          <div id="issue-button-div" style="display: none;">
             <Button id="issue-button" type="button" class="btn btn-success" onclick="sendIssueRequestToServer()">Issue Items</Button>
           </div>
         </div>
@@ -222,8 +235,10 @@
           //console.log(cheItems.item(i).value);
           //console.log(cheItems.item(i).name);
           var itemCount = cheItems.item(i).value;
-          if(itemCount>0) { validReq = true; }
-          reqItems[cheItems.item(i).name] = itemCount // Making the items json data
+          if(itemCount>0) { 
+            validReq = true;
+            reqItems[cheItems.item(i).name] = itemCount // Making the items json data
+            }
         }
 
         // Items list ready
@@ -234,9 +249,21 @@
           xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
               // If the adding item succeed!
-              // Create a random show that the request is succeed!
+              // Create a random show that the request is succeed! (alert)
               // Clear all the text Box
+              alert('Successfully Issued!');
               console.log(this.responseText);
+
+              // Making the selections empty
+              for(var i = 0; i < cheItems.length; i++){
+                //console.log(cheItems.item(i));
+                //console.log(cheItems.item(i).value);
+                //console.log(cheItems.item(i).name);
+                cheItems.item(i).value = "0";
+              }
+
+
+
             }
           };
 
@@ -255,7 +282,7 @@
           xhttp.send(JSON.stringify(reqbody));
 
         } else {
-          alert('No Item selected!');
+          alert('First, select an Item!');
         }
       }
     </script>
