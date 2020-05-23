@@ -147,9 +147,9 @@
             window.uname = profile.getName();
 
             //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + window.uname);
+            //console.log('Name: ' + window.uname);
             //console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + window.email); // This is null if the 'email' scope is not present.
+            //console.log('Email: ' + window.email); // This is null if the 'email' scope is not present.
 
             // Set the display of the sign in and sign out buttons
             document.getElementById('signInButton').style.display = "none";
@@ -184,13 +184,15 @@
                     <td><%= array[index-1].toJSON()['name'] %></td>
                     <td><%= array[index-1].toJSON()['total'] %></td>
                     <td><%= array[index-1].toJSON()['available'] %></td>
-                    <td><select name="issue-count" id="issue-row-count">
+
+                    <td><select name="<%= array[index-1].toJSON()['name'] %>" class="issue-row-count">
                       <!-- Create Options -->
                       <option value=0>0</option>
                       <% for(var j = 1; j<= array[index-1].toJSON()['available']; j++ ) { %>
                         <option value="<%= j %>"> <%= j %> </option>
                       <% } %>
                     </select></td>
+                    
                   </tr>
                   <% } %>
                 </tbody>
@@ -207,32 +209,54 @@
 
     <script>
       function sendIssueRequestToServer(){
-        console.log("SEnding request!");
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-          }
-        };
+        //console.log("SEnding request!");
+        
+        var reqItems = {};
+        var validReq = false;
+        // Getting the all selected items for making issue
+        var cheItems = document.getElementsByClassName('issue-row-count');  //HTMLCollection having all the select ones
+        //console.log(che);
+        //console.log(che.length);
+        for(var i = 0; i < cheItems.length; i++){
+          //console.log(cheItems.item(i));
+          //console.log(cheItems.item(i).value);
+          //console.log(cheItems.item(i).name);
+          var itemCount = cheItems.item(i).value;
+          if(itemCount>0) { validReq = true; }
+          reqItems[cheItems.item(i).name] = itemCount // Making the items json data
+        }
 
-        // The body parameters to send
-        var reqbody = {
-          name: window.uname,
-          email: window.email,
-          items: {
-            motor: 3,
-            "ir sensor": 2,
-            "asdf": 4
-          }
-        };
-        console.log(reqbody);
+        // Items list ready
+        //console.log(reqItems);
 
-        xhttp.open("POST", "/issues/create", true);
-        //Send the proper header information along with the request
-        xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
+        if(validReq){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              // If the adding item succeed!
+              // Create a random show that the request is succeed!
+              // Clear all the text Box
+              console.log(this.responseText);
+            }
+          };
 
-        xhttp.send(JSON.stringify(reqbody));
+          // The body parameters to send
+          var reqbody = {
+            name: window.uname,
+            email: window.email,
+            items: reqItems
+          };
+          //console.log(reqbody);
 
+          xhttp.open("POST", "/issues/create", true);
+          //Send the proper header information along with the request
+          xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
+
+          xhttp.send(JSON.stringify(reqbody));
+
+        } else {
+          alert('No Item selected!');
+        }
       }
     </script>
 
