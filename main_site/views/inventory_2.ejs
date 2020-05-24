@@ -45,6 +45,22 @@
       .table { 
         margin-left: -26px;
       }
+      .inline-items {
+        display: inline-block;
+        float: none !important;
+      }
+    }
+
+    .myissues-section-tile { 
+      color: rgba(153, 152, 152, 0.986);
+      background-color: #ffffff;
+      padding: 12px;
+      margin: 24px;
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    }
+
+    .inline-items {
+      display: inline-block;
     }
   </style>
   
@@ -141,6 +157,10 @@
             document.getElementById('signOutButtonStyle').style.display = "none";
             document.getElementById('issue-button-div').style.display = "none";
 
+            // Get the myissues section and clear it
+            var section = document.getElementById('myissues-section');
+            section.innerHTML = '';
+
             // Show the user name so that, he can be sure that he is successfully signed in!
             var showUser = document.getElementById('welcome-user');
             showUser.style.display="none";
@@ -174,6 +194,10 @@
             var showUser = document.getElementById('welcome-user');
             showUser.style.display="block";
             showUser.innerHTML += 'Welcome '+window.uname;
+
+            // Updating my issues
+            getMyIssues(window.email);
+
           }
         </script>
         
@@ -213,10 +237,24 @@
             </div>
           </div>
           <div id="issue-button-div" style="display: none;">
-            <Button id="issue-button" type="button" class="btn btn-success" onclick="sendIssueRequestToServer()">Issue Items</Button>
+            <Button id="issue-button" type="button" class="btn btn-success" onclick="sendIssueRequestToServer()">Request Issue Components</Button>
           </div>
         </div>
         <br><br>
+
+        <!-- My issues section -->
+
+        <!-- Heading-->
+        <div class="section-title" style="padding-bottom: 4px !important;"">
+          <h2>Requests History</h2>
+        </div>
+
+        <!-- Add here -->
+        <!-- Use class="myissues-section-tile"-->
+        <div id="myissues-section">
+          
+        </div>
+      
       </div>
     </section>
 
@@ -258,7 +296,8 @@
 
               // This checks wheather the request succeed or not
               if(resArr['success'] == 1){
-                alert('Issue Request Submitted!');
+
+                alert('Components Issue Request Submitted!');
 
                 // Making the selections empty
                 for(var i = 0; i < cheItems.length; i++){
@@ -267,12 +306,14 @@
                   //console.log(cheItems.item(i).name);
                   cheItems.item(i).value = "0";
                 }
+
+                // Updating my issues
+                getMyIssues(window.email);
+
               } else {
                 alert('Request Failed!');
               }
-            } else {
-              console.log("Request Error!");
-            }
+            } // End of status if
           };
 
           // The body parameters to send
@@ -294,6 +335,98 @@
         }
       }
     </script>
+
+    <!-- Get the issues made by me -->
+    <script>
+      function getMyIssues(email){
+        
+        // Defining request body
+        var reqbody = {
+          email: email
+        }
+
+        // Make request and get response
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            var resArr = JSON.parse(this.responseText);
+            console.log(resArr);
+            if(resArr.success == 1){
+
+              // Get the myissues section
+              var section = document.getElementById('myissues-section');
+              section.innerHTML = '';
+
+              var issuesData = resArr.msg;
+              for(var i = issuesData.length-1; i >=0 ; i--) {
+                //console.log(issuesData[i]);
+
+                //var itemsString = 0;
+                //var itemsLength = issuesData.items.length;
+                //for(var j = 0; j < itemsLength; j++ ){
+
+                //}
+                // Now update the UI
+                section.innerHTML += '<div class="myissues-section-tile">'
+                    +'<h3 class="inline-items" style="text-align: left; float: left"> Date: ' + issuesData[i].date_of_issue.toString().substr(0,10) + '</h3>'
+                  + '<h3 class="inline-items" style="text-align: right; float: right">' + issuesData[i].status + '</h3>'
+                  + '<br><br>'
+                  + '<p style="padding: 8px; margin-bottom: 8px;">'
+                    + JSON.stringify(issuesData[i].items)
+                  + '</p>'
+                  + '<Button class="btn btn-danger" onclick=removeIssue("' + issuesData[i]._id + '")>Cancel</button>'
+                  + '</div>'; 
+
+              }
+
+            } else {
+              console.log("Getting my issues failed!");
+            }
+          } // End of status if
+        }
+
+        // Defining parameters 
+        xhttp.open("POST", "/issues/myissues", true);
+        //Send the proper header information along with the request
+        xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
+
+        xhttp.send(JSON.stringify(reqbody));
+
+      }
+    </script>
+
+    <script>
+      function removeIssue(issueId){
+        
+        // Make request and get response
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            var resArr = JSON.parse(this.responseText);
+            //console.log(resArr);
+
+            if(resArr.success == 1){
+              //console.log("Successfuly deleted!");
+              
+              // Update the list and UI
+              getMyIssues(window.email);
+
+            } else{
+              console.log("Problem at server side!");
+            }
+
+          } // End of status if
+        }
+
+        // Defining parameters 
+        xhttp.open("POST", '/issues/'+ issueId +'/delete', true);
+        xhttp.send();
+
+      }
+    </script>
+
 
         <!-- ======= Contact Us Section ======= -->
 
@@ -328,14 +461,14 @@
 
     <div class="container">
       <div class="copyright">
-        made with ❤️ on Express.js by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
+        Made with ❤️ on Express.js by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
-        Designed by Dipanshu, Nidhi, Pratyush
+        Designed by Dipanshu, Nidhi, Pratyush, Priyam and Rohan
       </div>
     </div>
   </footer><!-- End Footer -->

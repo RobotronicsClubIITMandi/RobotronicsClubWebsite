@@ -319,14 +319,14 @@ router.post('/projects/:id/update', function (req, res, next) {
 });
 
 /* REST APIs to handle Issues */
-// status: "pending","returned"
+// status: "Requested" - create ,"Return-Pending" - accept, "Returned" - clear
 /* Example
   {
     "items": {},
     "_id": "5ec7ef28846e22263826c1b1",
     "name": "Priyam",
     "email": "test@test.com",
-    "status": "returned",
+    "status": "Returned",
     "date_of_issue": "2020-05-22T00:00:00.000Z",
     "__v": 0
   }
@@ -344,7 +344,7 @@ For only admins
 */
 
 /**
- * API TO create a new issue with status "pending"
+ * API TO create a new issue with status "requested"
  * Send name, email, items in the JSON Body in the POST Request
  * Returns result in the form of JSON {success, msg}
  *  */
@@ -358,7 +358,7 @@ router.post('/issues/create', function (req, res, next) {
     {
       name: req.body.name,
       email: req.body.email,
-      status: "pending",
+      status: "Requested",
       //date_of_issue: "2020-05-22",
       date_of_issue:  yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made
       items: req.body.items // This should be in the form of HashMap
@@ -382,10 +382,10 @@ router.post('/issues/myissues', function(req, res, next) {
   console.log(email);
   Issues.find({ email: email}).exec(function (err, result) {
     if (err) {
-      console.log(err);
+      //console.log(err);
       res.json({ success: 0, msg: (err.toString())});
     }
-    console.log(result);
+    //console.log(result);
     res.json({success: 1, msg: result});
   });
 });
@@ -415,7 +415,7 @@ router.post('/issues/:id/return', function (req, res, next) {
 
   var component = new Issues(
     {
-      status: "returned",
+      status: "Returned",
       date_of_return: yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made,
       _id: req.params.id
     }
