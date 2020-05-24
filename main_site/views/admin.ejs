@@ -295,6 +295,21 @@
       </div>
     </section>
 
+    <!-- ======= Issues Accepted Section ======= -->
+    <section id="issue-requests" class="more-services section-bg">
+      <div class="container">
+        <div class="section-title">
+          <!-- Heading -->
+          <h2>Component Issued</h2>
+          <p>Make changes when components are returned</p>
+        </div>
+
+        <!-- Requests -->
+        <!-- Script will add data here -->
+        <div id="return-list-container"></div>
+      </div>
+    </section>
+
     <!-- Scripts -->
     <script>
       window.addEventListener('DOMContentLoaded', (event) => {
@@ -315,11 +330,11 @@
 
              // Now update the UI very carefully in <div id="section-requests-components">
             var requestSection = document.getElementById('issue-list-container');
-            var acceptedSection = document.getElementById('issue-list-container');
+            var returnSection = document.getElementById('return-list-container');
 
             // Clear the innerHTML
             requestSection.innerHTML = '';
-            acceptedSection.innerHTML = '';
+            returnSection.innerHTML = '';
 
             for (var i=0; i < resArr.length; i++ ){
 
@@ -329,7 +344,10 @@
               + 'View '
               + '</button>';
 
-              requestSection.innerHTML += '<div id="' + resArr[i]._id + '" class="request-item-tile">'
+              if(resArr[i].status === "Requested" || resArr[i].status === "requested"){
+                
+                // These are the ones requested by students
+                requestSection.innerHTML += '<div id="' + resArr[i]._id + '" class="request-item-tile">'
                 + '<div class="row">'
                   + '<div class="col">'
                     + '<!-- Name -->'
@@ -349,7 +367,33 @@
                   + '</div>'
                 + '</div>'
               + '</div>';
-            }
+                
+              } else {
+                
+                // These are the ones which are actually issued and accepted that the items are issued
+                returnSection.innerHTML += '<div id="' + resArr[i]._id + '" class="request-item-tile">'
+                + '<div class="row">'
+                  + '<div class="col">'
+                    + '<!-- Name -->'
+                    + resArr[i].name
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Roll No -->'
+                    + resArr[i].email.toString().substr(0,6)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Date -->'
+                    + resArr[i].date_of_issue.toString().substr(0,10)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Button to view -->'
+                    + buttonExpandView
+                  + '</div>'
+                + '</div>'
+              + '</div>';
+              }
+
+            } // end of for loop
 
           } else{
             console.log("Failed fetching all issues!");
@@ -366,6 +410,7 @@
     <script>
       function expandTileById(issueId){
         var tileById = document.getElementById(issueId);
+        console.log("Expand this: ", issueId);
       } 
     </script>
   </main><!-- End #main -->
