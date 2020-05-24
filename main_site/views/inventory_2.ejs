@@ -331,7 +331,7 @@
           xhttp.send(JSON.stringify(reqbody));
 
         } else {
-          alert('First, select an Item!');
+          alert('First, select atleast a component!');
         }
       }
     </script>
@@ -367,6 +367,13 @@
                 //for(var j = 0; j < itemsLength; j++ ){
 
                 //}
+
+                var toShowCancelButton = "none";
+                if(issuesData[i].status === "Requested"){
+                  //console.log("Yes show cancel button");
+                  toShowCancelButton = "block";
+                }
+
                 // Now update the UI
                 section.innerHTML += '<div class="myissues-section-tile">'
                     +'<h3 class="inline-items" style="text-align: left; float: left"> Date: ' + issuesData[i].date_of_issue.toString().substr(0,10) + '</h3>'
@@ -375,7 +382,10 @@
                   + '<p style="padding: 8px; margin-bottom: 8px;">'
                     + JSON.stringify(issuesData[i].items)
                   + '</p>'
-                  + '<Button class="btn btn-danger" onclick=removeIssue("' + issuesData[i]._id + '")>Cancel</button>'
+                  + '<Button class="btn btn-danger"'
+                    + ' style="display: ' + toShowCancelButton + ';"'
+                    + ' onclick=removeIssue("' + issuesData[i]._id + '")> Cancel'
+                    + '</button>'
                   + '</div>'; 
 
               }
