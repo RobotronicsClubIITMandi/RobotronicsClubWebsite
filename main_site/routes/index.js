@@ -322,7 +322,7 @@ router.post('/projects/:id/update', function (req, res, next) {
 // status: "Requested" - create ,"Return-Pending" - accept, "Returned" - clear
 /* Example
   {
-    "items": {},
+    "items": { "motors": "2", "ir sensor": "3" },
     "_id": "5ec7ef28846e22263826c1b1",
     "name": "Priyam",
     "email": "test@test.com",
@@ -338,7 +338,7 @@ For a normal user:
 
 For only admins
 /issues/all // Get the list of all the issues
-/issues/:id/accept // Accepting the issue - sets the status to "returned"
+/issues/:id/accept // Accepting the issue - sets the status to "Return-Pending"
 /issues/:id/delete // To remove from the database
 /issues/:id/reject // Not deleting just setting the status to rejected  // Not implemented
 */
@@ -408,7 +408,7 @@ router.post('/issues/all', isLoggedIn, function(req, res, next) {
 });
 
 // API to accept the return request
-router.post('/issues/:id/return', function (req, res, next) {
+router.post('/issues/:id/accept', function (req, res, next) {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -416,14 +416,14 @@ router.post('/issues/:id/return', function (req, res, next) {
 
   var component = new Issues(
     {
-      status: "Returned",
-      date_of_return: yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made,
+      status: "Return-Pending",
+      date_of_issue: yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made,
       _id: req.params.id
     }
   );
   Issues.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
     if (err) { return next(err); }
-    res.json({success: 1, msg: "Returned"});
+    res.json({success: 1, msg: "Return-Pending"});
   });
 });
 

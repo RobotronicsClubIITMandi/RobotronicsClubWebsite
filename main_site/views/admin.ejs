@@ -398,7 +398,7 @@
                         + '<!-- Reject Button -->'
                         + '<Button '
                           + 'class="btn btn-danger" '
-                          + 'onclick=rejectThisIssue("' + resArr[i]._id + '") >'
+                          + 'onclick=removeThisIssue("' + resArr[i]._id + '") >'
                           + 'Reject'
                         + '</button>'
                       + '</div>'
@@ -450,11 +450,11 @@
                         + '</button>'
                       + '</div>'
                       + '<div class="col">'
-                        + '<!-- Reject Button -->'
+                        + '<!-- Remove Button -->'
                         + '<Button '
                           + 'class="btn btn-danger" '
-                          + 'onclick=rejectThisIssue("' + resArr[i]._id + '") >'
-                          + 'Reject'
+                          + 'onclick=removeThisIssue("' + resArr[i]._id + '") >'
+                          + 'Remove'
                         + '</button>'
                       + '</div>'
                       + '<div class="col">'
@@ -472,8 +472,6 @@
 
             } // end of for loop
 
-          } else{
-            console.log("Failed fetching all issues!");
           }
         }
 
@@ -491,6 +489,41 @@
 
       } 
     </script>
+
+    <!-- Script for accepting issue requests -->
+    <script>
+      function acceptThisIssue(issueId){
+
+        // Send the request to server to accept this issue request with _id = issueid
+      }
+    </script>
+
+    <!-- Script for rejecting or say deleting -->
+    <script>
+      function removeThisIssue(issueId){
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status == 200){
+
+            var resArr = JSON.parse(this.responseText);
+            if(resArr.success == 1){
+
+              // Update the UI (successfully deleted)
+              addRequestIssues();
+
+            } else{
+              console.log("Mongodb error");
+            }
+          }
+        }
+
+        // Defining parameters 
+        xhttp.open("POST", '/issues/'+ issueId +'/delete', true);
+        xhttp.send();
+      }
+    </script>
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -522,14 +555,14 @@
 
     <div class="container">
       <div class="copyright">
-        made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
+        Made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
-        Designed by Dipanshu, Nidhi, Pratyush
+        Designed by Dipanshu, Nidhi, Pratyush, Rohan and Priyam
       </div>
     </div>
   </footer><!-- End Footer -->
