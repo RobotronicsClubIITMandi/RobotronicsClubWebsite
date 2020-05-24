@@ -91,6 +91,7 @@
           <li><a href="#services">Inventory</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#issue-requests">Issue Requests</a></li>
+          <li><a href="#issue-accepted">Issued</a></li>
           <li><a href="/">View Website</a></li>
           <li><a href="/admin/logout">Logout</a></li>
 
@@ -296,7 +297,7 @@
     </section>
 
     <!-- ======= Issues Accepted Section ======= -->
-    <section id="issue-requests" class="more-services section-bg">
+    <section id="issue-accepted" class="more-services section-bg">
       <div class="container">
         <div class="section-title">
           <!-- Heading -->
@@ -339,12 +340,14 @@
 
             for (var i=0; i < resArr.length; i++ ){
 
+              // Expand collpase button
               var buttonExpandView = '<button '
-              + 'class="btn btn-info" '
+              + 'class="btn btn-info expand-collapse-btn" '
               + 'onclick=expandTileById("' + resArr[i]._id + '") > '
-              + 'View '
+              + 'Expand '
               + '</button>';
 
+              // Components data in the form of table
               var componentsTableString = '<table class="table" id="request-history-component-table">'
                   + '<tbody>';
                 var itemsLength = resArr[i].items.length;
@@ -381,7 +384,7 @@
                     + buttonExpandView
                   + '</div>'
                 + '</div>'
-                + '<div class="hidden-tile-view" style="margin-top: 10px;">'
+                + '<div class="hidden-tile-view" style="margin-top: 10px; display: none;">'
                   + '<!-- Table of Components -->'
                   + componentsTableString
                   + '<div class="row">'
@@ -436,7 +439,7 @@
                     + buttonExpandView
                     + '</div>'
                   + '</div>'
-                  + '<div class="hidden-tile-view" style="margin-top: 10px;">'
+                  + '<div class="hidden-tile-view" style="margin-top: 10px; display:none;">'
                     + '<!-- Table of Components -->'
                     + componentsTableString
                     + '<div class="row">'
@@ -485,9 +488,22 @@
     <script>
       function expandTileById(issueId){
         var tileById = document.getElementById(issueId);
-        console.log("Expand this: ", tileById);
+        //console.log("Expand this: ", tileById);
+        
+        var hideTileClass = tileById.getElementsByClassName('hidden-tile-view')[0];
+        //console.log(hideTileClass.style.display);
 
-      } 
+        var expandCollapseBtn = tileById.getElementsByClassName('expand-collapse-btn')[0];
+
+        if(hideTileClass.style.display === "none"){
+          hideTileClass.style.display = "block";
+          expandCollapseBtn.innerHTML = "Collapse";
+        } else{
+          hideTileClass.style.display = "none";
+          expandCollapseBtn.innerHTML = "Expand";
+        }
+
+      }
     </script>
 
     <!-- Script for accepting issue requests -->
