@@ -313,11 +313,12 @@
     <!-- Scripts -->
     <script>
       window.addEventListener('DOMContentLoaded', (event) => {
-        console.log('DOM fully loaded and parsed');
+        //console.log('DOM fully loaded and parsed');
         addRequestIssues();
       });
     </script>
 
+    <!-- Script for adding values in the two issues section -->
     <script>
       function addRequestIssues(){
         var xhttp = new XMLHttpRequest();
@@ -344,6 +345,20 @@
               + 'View '
               + '</button>';
 
+              var componentsTableString = '<table class="table" id="request-history-component-table">'
+                  + '<tbody>';
+                var itemsLength = resArr[i].items.length;
+                for(var key in resArr[i].items) {
+                  componentsTableString += '<tr>'
+                    + '<td>' + key + '</td>'
+                    + '<td>' + resArr[i].items[key] + '</td>'
+                    + '</tr>';
+                }
+                componentsTableString += '</tbody>'
+                 + '</table><hr>';
+                //console.log(componentsTableString);
+
+
               if(resArr[i].status === "Requested" || resArr[i].status === "requested"){
                 
                 // These are the ones requested by students
@@ -366,7 +381,38 @@
                     + buttonExpandView
                   + '</div>'
                 + '</div>'
-              + '</div>';
+                + '<div class="hidden-tile-view" style="margin-top: 10px;">'
+                  + '<!-- Table of Components -->'
+                  + componentsTableString
+                  + '<div class="row">'
+                      + '<!-- Some Helpful buttons-->'
+                      + '<div class="col">'
+                        + '<!-- Accept Button -->'
+                        + '<Button '
+                          + 'class="btn btn-success" '
+                          + 'onclick=acceptThisIssue("' + resArr[i]._id + '") >'
+                          + 'Accept'
+                        + '</button>'
+                      + '</div>'
+                      + '<div class="col">'
+                        + '<!-- Reject Button -->'
+                        + '<Button '
+                          + 'class="btn btn-danger" '
+                          + 'onclick=rejectThisIssue("' + resArr[i]._id + '") >'
+                          + 'Reject'
+                        + '</button>'
+                      + '</div>'
+                      + '<div class="col">'
+                        + '<!-- Edit Button (To be added soon) -->'
+                        + '<Button '
+                          + 'class="btn btn-secondary" '
+                          + 'onclick=editThisIssue("' + resArr[i]._id + '") >'
+                          + 'Edit'
+                        + '</button>'
+                      + '</div>'
+                    + '</div>'
+                  + '</div>'
+                + '</div>';
                 
               } else {
                 
@@ -388,9 +434,40 @@
                   + '<div class="col">'
                     + '<!-- Button to view -->'
                     + buttonExpandView
+                    + '</div>'
                   + '</div>'
-                + '</div>'
-              + '</div>';
+                  + '<div class="hidden-tile-view" style="margin-top: 10px;">'
+                    + '<!-- Table of Components -->'
+                    + componentsTableString
+                    + '<div class="row">'
+                      + '<!-- Some Helpful buttons-->'
+                      + '<div class="col">'
+                        + '<!-- Accept Button -->'
+                        + '<Button '
+                          + 'class="btn btn-success" '
+                          + 'onclick=acceptThisIssue("' + resArr[i]._id + '") >'
+                          + 'Accept'
+                        + '</button>'
+                      + '</div>'
+                      + '<div class="col">'
+                        + '<!-- Reject Button -->'
+                        + '<Button '
+                          + 'class="btn btn-danger" '
+                          + 'onclick=rejectThisIssue("' + resArr[i]._id + '") >'
+                          + 'Reject'
+                        + '</button>'
+                      + '</div>'
+                      + '<div class="col">'
+                        + '<!-- Edit Button (To be added soon) -->'
+                        + '<Button '
+                          + 'class="btn btn-secondary" '
+                          + 'onclick=editThisIssue("' + resArr[i]._id + '") >'
+                          + 'Edit'
+                        + '</button>'
+                      + '</div>'
+                    + '</div>'
+                  + '</div>'
+                + '</div>';
               }
 
             } // end of for loop
@@ -410,7 +487,8 @@
     <script>
       function expandTileById(issueId){
         var tileById = document.getElementById(issueId);
-        console.log("Expand this: ", issueId);
+        console.log("Expand this: ", tileById);
+
       } 
     </script>
   </main><!-- End #main -->
