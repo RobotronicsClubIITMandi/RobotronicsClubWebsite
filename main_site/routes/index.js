@@ -394,14 +394,15 @@ router.post('/issues/myissues', function(req, res, next) {
 /**
  * API To view all the current issues which are made
  * Response: {success, msg}
+ * isLoggedIn ensures that admin is working
  */
-router.get('/issues/all', function(req, res, next) {
+router.post('/issues/all', isLoggedIn, function(req, res, next) {
   Issues.find({}).exec(function (err, result) {
     if (err) {
       console.log(err);
       res.json({ success: 0, msg: (err.toString())});
     }
-    console.log(result);
+    //console.log(result);
     res.json({success: 1, msg: result});
   });
 });
@@ -422,7 +423,7 @@ router.post('/issues/:id/return', function (req, res, next) {
   );
   Issues.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
     if (err) { return next(err); }
-    res.json({success: 1, msg: "returned"});
+    res.json({success: 1, msg: "Returned"});
   });
 });
 

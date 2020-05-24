@@ -50,6 +50,14 @@
     #adder_image {
       transition: ease 0.2s;
     }
+
+    .request-item-tile { 
+      color: rgba(153, 152, 152, 0.986);
+      background-color: #ffffff;
+      padding: 12px;
+      margin: 24px;
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    }
   </style>
 
   <!-- =======================================================
@@ -82,6 +90,7 @@
           <li><a href="#calender">Calender</a></li>
           <li><a href="#services">Inventory</a></li>
           <li><a href="#projects">Projects</a></li>
+          <li><a href="#issue-requests">Issue Requests</a></li>
           <li><a href="/">View Website</a></li>
           <li><a href="/admin/logout">Logout</a></li>
 
@@ -271,6 +280,94 @@
       </div>
     </section><!-- End More Services Section -->
 
+    <!-- ======= Issue Requests Section ======= -->
+    <section id="issue-requests" class="services">
+      <div class="container">
+        <div class="section-title">
+          <!-- Heading -->
+          <h2>Issue Requests</h2>
+          <p>Components Management System</p>
+        </div>
+
+        <!-- Requests -->
+        <!-- Script will add data here -->
+        <div id="issue-list-container"></div>
+      </div>
+    </section>
+
+    <!-- Scripts -->
+    <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM fully loaded and parsed');
+        addRequestIssues();
+      });
+    </script>
+
+    <script>
+      function addRequestIssues(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+          if(this.readyState == 4 && this.status == 200){
+            
+            var resArr = JSON.parse(this.responseText).msg;
+            console.log(resArr);
+
+             // Now update the UI very carefully in <div id="section-requests-components">
+            var requestSection = document.getElementById('issue-list-container');
+            var acceptedSection = document.getElementById('issue-list-container');
+
+            // Clear the innerHTML
+            requestSection.innerHTML = '';
+            acceptedSection.innerHTML = '';
+
+            for (var i=0; i < resArr.length; i++ ){
+
+              var buttonExpandView = '<button '
+              + 'class="btn btn-info" '
+              + 'onclick=expandTileById("' + resArr[i]._id + '") > '
+              + 'View '
+              + '</button>';
+
+              requestSection.innerHTML += '<div id="' + resArr[i]._id + '" class="request-item-tile">'
+                + '<div class="row">'
+                  + '<div class="col">'
+                    + '<!-- Name -->'
+                    + resArr[i].name
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Roll No -->'
+                    + resArr[i].email.toString().substr(0,6)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Date -->'
+                    + resArr[i].date_of_issue.toString().substr(0,10)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Button to view -->'
+                    + buttonExpandView
+                  + '</div>'
+                + '</div>'
+              + '</div>';
+            }
+
+          } else{
+            console.log("Failed fetching all issues!");
+          }
+        }
+
+        // Send requests
+        xhttp.open("POST", '/issues/all', true);
+        xhttp.send();
+      }
+    </script>
+
+    <!-- Script for expansion -->
+    <script>
+      function expandTileById(issueId){
+        var tileById = document.getElementById(issueId);
+      } 
+    </script>
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
