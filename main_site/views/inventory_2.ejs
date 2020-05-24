@@ -220,6 +220,7 @@
       </div>
     </section>
 
+    <!-- Script for making issue -->
     <script>
       function sendIssueRequestToServer(){
         //console.log("SEnding request!");
@@ -251,19 +252,26 @@
               // If the adding item succeed!
               // Create a random show that the request is succeed! (alert)
               // Clear all the text Box
-              alert('Successfully Issued!');
-              console.log(this.responseText);
+              var resArr = JSON.parse(this.responseText);
+              //console.log(this.responseText);
+              //console.log(this.responseText['success']);
 
-              // Making the selections empty
-              for(var i = 0; i < cheItems.length; i++){
-                //console.log(cheItems.item(i));
-                //console.log(cheItems.item(i).value);
-                //console.log(cheItems.item(i).name);
-                cheItems.item(i).value = "0";
+              // This checks wheather the request succeed or not
+              if(resArr['success'] == 1){
+                alert('Issue Request Submitted!');
+
+                // Making the selections empty
+                for(var i = 0; i < cheItems.length; i++){
+                  //console.log(cheItems.item(i));
+                  //console.log(cheItems.item(i).value);
+                  //console.log(cheItems.item(i).name);
+                  cheItems.item(i).value = "0";
+                }
+              } else {
+                alert('Request Failed!');
               }
-
-
-
+            } else {
+              console.log("Request Error!");
             }
           };
 
