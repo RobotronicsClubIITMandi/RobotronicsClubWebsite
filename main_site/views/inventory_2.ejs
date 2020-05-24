@@ -59,6 +59,12 @@
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
     }
 
+    #request-history-component-table {
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+    }
+
     .inline-items {
       display: inline-block;
     }
@@ -156,6 +162,7 @@
             document.getElementById('signOutButton').style.display = "none";
             document.getElementById('signOutButtonStyle').style.display = "none";
             document.getElementById('issue-button-div').style.display = "none";
+            document.getElementById('request-history-heading').style.display = "none";
 
             // Get the myissues section and clear it
             var section = document.getElementById('myissues-section');
@@ -189,6 +196,7 @@
             document.getElementById('signOutButton').style.display = "block";
             document.getElementById('signOutButtonStyle').style.display = "block";
             document.getElementById('issue-button-div').style.display = "block";
+            document.getElementById('request-history-heading').style.display = "block";
 
             // Show the user name so that, he can be sure that he is successfully signed in!
             var showUser = document.getElementById('welcome-user');
@@ -245,7 +253,7 @@
         <!-- My issues section -->
 
         <!-- Heading-->
-        <div class="section-title" style="padding-bottom: 4px !important;"">
+        <div class="section-title" id="request-history-heading" style="padding-bottom: 4px !important; display: none;">
           <h2>Requests History</h2>
         </div>
 
@@ -362,11 +370,18 @@
               for(var i = issuesData.length-1; i >=0 ; i--) {
                 //console.log(issuesData[i]);
 
-                //var itemsString = 0;
-                //var itemsLength = issuesData.items.length;
-                //for(var j = 0; j < itemsLength; j++ ){
-
-                //}
+                var componentsTableString = '<table class="table" id="request-history-component-table">'
+                  + '<tbody>';
+                var itemsLength = issuesData[i].items.length;
+                for(var key in issuesData[i].items) {
+                  componentsTableString += '<tr>'
+                    + '<td>' + key + '</td>'
+                    + '<td>' + issuesData[i].items[key] + '</td>'
+                    + '</tr>';
+                }
+                componentsTableString += '</tbody>'
+                 + '</table><hr>';
+                //console.log(componentsTableString);
 
                 var toShowCancelButton = "none";
                 if(issuesData[i].status === "Requested"){
@@ -379,9 +394,7 @@
                     +'<h3 class="inline-items" style="text-align: left; float: left"> Date: ' + issuesData[i].date_of_issue.toString().substr(0,10) + '</h3>'
                   + '<h3 class="inline-items" style="text-align: right; float: right">' + issuesData[i].status + '</h3>'
                   + '<br><br>'
-                  + '<p style="padding: 8px; margin-bottom: 8px;">'
-                    + JSON.stringify(issuesData[i].items)
-                  + '</p>'
+                  + componentsTableString
                   + '<Button class="btn btn-danger"'
                     + ' style="display: ' + toShowCancelButton + ';"'
                     + ' onclick=removeIssue("' + issuesData[i]._id + '")> Cancel'
