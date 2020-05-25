@@ -110,13 +110,16 @@ jQuery(document).ready(function($) {
       url: action,
       data: str,
       success: function(msg) {
+        console.log(msg)
         if (msg == 'OK') {
           this_form.find('.loading').slideUp();
           this_form.find('.sent-message').slideDown();
+          setTimeout(()=>this_form.find('.sent-message').fadeOut(), 5000)
           this_form.find("input:not(input[type=submit]), textarea").val('');
         } else {
           this_form.find('.loading').slideUp();
-          this_form.find('.error-message').slideDown().html(msg);
+          this_form.find('.error-message').slideDown();
+          setTimeout(()=>this_form.find('.error-message').fadeOut(), 5000)
         }
       }
     });
