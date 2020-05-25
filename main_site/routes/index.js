@@ -3,7 +3,9 @@ var router = express.Router();
 var Inventory = require('../models/inventory');
 var News = require('../models/news');
 var Projects = require('../models/projects');
-var nodeMailer = require('nodemailer')
+var Issues = require('../models/issues');
+
+var nodeMailer = require('nodemailer');
 
 var async = require('async');
 
@@ -318,6 +320,7 @@ router.post('/projects/:id/update', function (req, res, next) {
   });
 });
 
+/* For mailing one done by Rohan */
 router.post('/sendemail', function(req, res){
   var message = ""
   let mailer = nodeMailer.createTransport({
@@ -362,7 +365,135 @@ router.post('/sendemail', function(req, res){
     console.log('Message %s sent: %s', info.messageId, info.response)
     message = "OK"
     res.send(message)
-  })
+  });
   
-})
+});
+
+/* REST APIs to handle Issues done by Priyam */
+// status: "Requested" - create ,"Return-Pending" - accept, "Returned" - clear
+/* Example
+  {
+    "items": { "motors": "2", "ir sensor": "3" },
+    "_id": "5ec7ef28846e22263826c1b1",
+    "name": "Priyam",
+    "email": "test@test.com",
+    "status": "Returned",
+    "date_of_issue": "2020-05-22T00:00:00.000Z",
+    "__v": 0
+  }
+*/
+/*
+For a normal user:
+/issues/create
+/issues/myissues
+
+For only admins
+/issues/all // Get the list of all the issues
+/issues/:id/accept // Accepting the issue - sets the status to "Return-Pending"
+/issues/:id/delete // To remove from the database
+/issues/:id/reject // Not deleting just setting the status to rejected  // Not implemented
+*/
+
+/**
+ * API TO create a new issue with status "requested"
+ * Send name, email, items in the JSON Body in the POST Request
+ * Returns result in the form of JSON {success, msg}
+ *  */
+router.post('/issues/create', function (req, res, next) {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  var component = new Issues(
+    {
+      name: req.body.name,
+      email: req.body.email,
+      status: "Requested",
+      //date_of_issue: "2020-05-22",
+      date_of_issue:  yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made
+      items: req.body.items // This should be in the form of HashMap
+    }
+  );
+  component.save(function (err) {
+    if (err) {
+      console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    res.json( { success: 1, msg: "success"} );
+  });
+});
+
+/**
+ * API To view all the pending issues which are made by the user
+ * Response: {success, msg}
+ */
+router.post('/issues/myissues', function(req, res, next) {
+  var email = req.body.email;
+  console.log(email);
+  Issues.find({ email: email}).exec(function (err, result) {
+    if (err) {
+      //console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    //console.log(result);
+    res.json({success: 1, msg: result});
+  });
+});
+
+// -------- Admin Issue controls -----------
+/**
+ * API To view all the current issues which are made
+ * Response: {success, msg}
+ * isLoggedIn ensures that admin is working
+ */
+router.post('/issues/all', isLoggedIn, function(req, res, next) {
+  Issues.find({}).exec(function (err, result) {
+    if (err) {
+      console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    //console.log(result);
+    res.json({success: 1, msg: result});
+  });
+});
+
+// API to accept the return request
+router.post('/issues/:id/accept', function (req, res, next) {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  // use new issues if you need to fully create it a new one
+  var component = {
+      status: "Return-Pending",
+      date_of_issue: yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made,
+      _id: req.params.id
+    };
+
+  Issues.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
+    if (err) { return next(err); }
+    res.json({success: 1, msg: "Return-Pending"});
+  });
+
+});
+
+
+/**
+ * API To cancel an item request (Very Important) Cancel by the user
+ * Response: {success, msg}
+ */
+router.post('/issues/:id/delete', function (req, res, next) {
+  Issues.findByIdAndRemove(req.params.id, function deleteComponent(err) {
+    if (err) {
+      console.log(err);
+      res.json({ success: 0, msg: (err.toString())});
+    }
+    // Success - Return
+    res.json({ success: 1, msg: "Removed" });
+  });
+});
+
+
 module.exports = router;

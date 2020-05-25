@@ -50,6 +50,14 @@
     #adder_image {
       transition: ease 0.2s;
     }
+
+    .request-item-tile { 
+      color: rgba(153, 152, 152, 0.986);
+      background-color: #ffffff;
+      padding: 12px;
+      margin: 24px;
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    }
   </style>
 
   <!-- =======================================================
@@ -82,6 +90,8 @@
           <li><a href="#calender">Calender</a></li>
           <li><a href="#services">Inventory</a></li>
           <li><a href="#projects">Projects</a></li>
+          <li><a href="#issue-requests">Issue Requests</a></li>
+          <li><a href="#issue-accepted">Issued</a></li>
           <li><a href="/">View Website</a></li>
           <li><a href="/admin/logout">Logout</a></li>
 
@@ -271,6 +281,275 @@
       </div>
     </section><!-- End More Services Section -->
 
+    <!-- ======= Issue Requests Section ======= -->
+    <section id="issue-requests" class="services">
+      <div class="container">
+        <div class="section-title">
+          <!-- Heading -->
+          <h2>Issue Requests</h2>
+          <p>Components Management System</p>
+        </div>
+
+        <!-- Requests -->
+        <!-- Script will add data here -->
+        <div id="issue-list-container"></div>
+      </div>
+    </section>
+
+    <!-- ======= Issues Accepted Section ======= -->
+    <section id="issue-accepted" class="more-services section-bg">
+      <div class="container">
+        <div class="section-title">
+          <!-- Heading -->
+          <h2>Component Issued</h2>
+          <p>Make changes when components are returned</p>
+        </div>
+
+        <!-- Requests -->
+        <!-- Script will add data here -->
+        <div id="return-list-container"></div>
+      </div>
+    </section>
+
+    <!-- Scripts -->
+    <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+        //console.log('DOM fully loaded and parsed');
+        addRequestIssues();
+      });
+    </script>
+
+    <!-- Script for adding values in the two issues section -->
+    <script>
+      function addRequestIssues(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+          if(this.readyState == 4 && this.status == 200){
+            
+            var resArr = JSON.parse(this.responseText).msg;
+            console.log(resArr);
+
+             // Now update the UI very carefully in <div id="section-requests-components">
+            var requestSection = document.getElementById('issue-list-container');
+            var returnSection = document.getElementById('return-list-container');
+
+            // Clear the innerHTML
+            requestSection.innerHTML = '';
+            returnSection.innerHTML = '';
+
+            for (var i=0; i < resArr.length; i++ ){
+
+              // Expand collpase button
+              var buttonExpandView = '<button '
+              + 'class="btn btn-info expand-collapse-btn" '
+              + 'onclick=expandTileById("' + resArr[i]._id + '") > '
+              + 'Expand '
+              + '</button>';
+
+              // Components data in the form of table
+              var componentsTableString = '<table class="table" id="request-history-component-table">'
+                  + '<tbody>';
+                var itemsLength = resArr[i].items.length;
+                for(var key in resArr[i].items) {
+                  componentsTableString += '<tr>'
+                    + '<td>' + key + '</td>'
+                    + '<td>' + resArr[i].items[key] + '</td>'
+                    + '</tr>';
+                }
+                componentsTableString += '</tbody>'
+                 + '</table><hr>';
+                //console.log(componentsTableString);
+
+
+              if(resArr[i].status === "Requested" || resArr[i].status === "requested"){
+                
+                // These are the ones requested by students
+                requestSection.innerHTML += '<div id="' + resArr[i]._id + '" class="request-item-tile">'
+                + '<div class="row">'
+                  + '<div class="col">'
+                    + '<!-- Name -->'
+                    + resArr[i].name
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Roll No -->'
+                    + resArr[i].email.toString().substr(0,6)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Date -->'
+                    + resArr[i].date_of_issue.toString().substr(0,10)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Button to view -->'
+                    + buttonExpandView
+                  + '</div>'
+                + '</div>'
+                + '<div class="hidden-tile-view" style="margin-top: 10px; display: none;">'
+                  + '<!-- Table of Components -->'
+                  + componentsTableString
+                  + '<div class="row">'
+                      + '<!-- Some Helpful buttons-->'
+                      + '<div class="col">'
+                        + '<!-- Accept Button -->'
+                        + '<Button '
+                          + 'class="btn btn-success" style="margin: 10px;" '
+                          + 'onclick=acceptThisIssue("' + resArr[i]._id + '") >'
+                          + 'Accept'
+                        + '</button>'
+                      + '</div>'
+                      + '<div class="col">'
+                        + '<!-- Reject Button -->'
+                        + '<Button '
+                          + 'class="btn btn-danger" style="margin: 10px;" '
+                          + 'onclick=removeThisIssue("' + resArr[i]._id + '") >'
+                          + 'Reject'
+                        + '</button>'
+                      + '</div>'
+                      + '<div class="col">'
+                        + '<!-- Edit Button (To be added soon) -->'
+                        + '<Button '
+                          + 'class="btn btn-secondary" style="margin: 10px;" '
+                          + 'onclick=editThisIssue("' + resArr[i]._id + '") >'
+                          + 'Edit'
+                        + '</button>'
+                      + '</div>'
+                    + '</div>'
+                  + '</div>'
+                + '</div>';
+                
+              } else {
+                
+                // These are the ones which are actually issued and accepted that the items are issued
+                returnSection.innerHTML += '<div id="' + resArr[i]._id + '" class="request-item-tile">'
+                + '<div class="row">'
+                  + '<div class="col">'
+                    + '<!-- Name -->'
+                    + resArr[i].name
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Roll No -->'
+                    + resArr[i].email.toString().substr(0,6)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Date -->'
+                    + resArr[i].date_of_issue.toString().substr(0,10)
+                  + '</div>'
+                  + '<div class="col">'
+                    + '<!-- Button to view -->'
+                    + buttonExpandView
+                    + '</div>'
+                  + '</div>'
+                  + '<div class="hidden-tile-view" style="margin-top: 10px; display:none;">'
+                    + '<!-- Table of Components -->'
+                    + componentsTableString
+                    + '<div class="row">'
+                      + '<!-- Some Helpful buttons-->'
+                      + '<div class="col">'
+                        + '<!-- Remove Button -->'
+                        + '<Button '
+                          + 'class="btn btn-danger" style="margin: 10px;" '
+                          + 'onclick=removeThisIssue("' + resArr[i]._id + '") >'
+                          + 'Remove'
+                        + '</button>'
+                      + '</div>'
+                      + '<div class="col">'
+                        + '<!-- Edit Button (To be added soon) -->'
+                        + '<Button '
+                          + 'class="btn btn-secondary" style="margin: 10px;" '
+                          + 'onclick=editThisIssue("' + resArr[i]._id + '") >'
+                          + 'Edit'
+                        + '</button>'
+                      + '</div>'
+                    + '</div>'
+                  + '</div>'
+                + '</div>';
+              }
+
+            } // end of for loop
+
+          }
+        }
+
+        // Send requests
+        xhttp.open("POST", '/issues/all', true);
+        xhttp.send();
+      }
+    </script>
+
+    <!-- Script for expansion and collapsion -->
+    <script>
+      function expandTileById(issueId){
+        var tileById = document.getElementById(issueId);
+        //console.log("Expand this: ", tileById);
+        
+        var hideTileClass = tileById.getElementsByClassName('hidden-tile-view')[0];
+        //console.log(hideTileClass.style.display);
+
+        var expandCollapseBtn = tileById.getElementsByClassName('expand-collapse-btn')[0];
+
+        if(hideTileClass.style.display === "none"){
+          hideTileClass.style.display = "block";
+          expandCollapseBtn.innerHTML = "Collapse";
+        } else{
+          hideTileClass.style.display = "none";
+          expandCollapseBtn.innerHTML = "Expand";
+        }
+
+      }
+    </script>
+
+    <!-- Script for accepting issue requests -->
+    <script>
+      function acceptThisIssue(issueId){
+
+        // Send the request to server to accept this issue request with _id = issueid
+        // Create the reciever
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if( this.status=200 && this.readyState==4 ){
+            
+            //console.log(this.responseText);
+            if(JSON.parse(this.responseText).success == 1){
+
+              // Accept succeed
+              // Now update the UI
+              addRequestIssues();
+            }
+          }
+        }
+
+        // Send requests
+        xhttp.open("POST", '/issues/' + issueId + '/accept', true);
+        xhttp.send();
+      }
+    </script>
+
+    <!-- Script for rejecting or say deleting -->
+    <script>
+      function removeThisIssue(issueId){
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status == 200){
+
+            var resArr = JSON.parse(this.responseText);
+            if(resArr.success == 1){
+
+              // Update the UI (successfully deleted)
+              addRequestIssues();
+
+            } else{
+              console.log("Mongodb error");
+            }
+          }
+        }
+
+        // Defining parameters 
+        xhttp.open("POST", '/issues/'+ issueId +'/delete', true);
+        xhttp.send();
+      }
+    </script>
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -302,14 +581,14 @@
 
     <div class="container">
       <div class="copyright">
-        made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
+        Made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
-        Designed by Dipanshu, Nidhi, Pratyush
+        Designed by Dipanshu, Nidhi, Pratyush, Rohan and Priyam
       </div>
     </div>
   </footer><!-- End Footer -->

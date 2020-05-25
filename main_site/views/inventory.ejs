@@ -2,25 +2,47 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Bootstrap 4 Table with Images</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'><link rel="stylesheet" href="assets/css/inventory.css">
+  <title>inventory</title>
+  
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+
+  <!-- <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'><link rel="stylesheet" href="assets/css/inventory.css"> -->
+  <!-- <link href="assets/css/inventory.css" rel="stylesheet"> -->
 
 </head>
 <body>
 <!-- partial:index.partial.html -->
+
+
+	  
+
 <div class="container">
   <div class="row">
     <div class="col-12">
 		<table class="table table-image">
 		  <thead>
 		    <tr>
-		      <th scope="col">Day</th>
+		      <th scope="col">ID</th>
 		      <th scope="col">Image</th>
-		      <th scope="col">Article Name</th>
-		      <th scope="col">Author</th>
-		      <th scope="col">Words</th>
-		      <th scope="col">Shares</th>
+			  <th scope="col">Name</th>
+			  <th scope="col">Description</th>
+		      <th scope="col">Available</th>
+		      <th scope="col">Add</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -29,27 +51,48 @@
 		      <td class="w-25">
 			      <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-fluid img-thumbnail" alt="Sheep">
 		      </td>
-		      <td>Bootstrap 4 CDN and Starter Template</td>
-		      <td>Cristina</td>
-		      <td>913</td>
-		      <td>2.846</td>
+			  <td>Arduino Uno</td>
+			  <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam vitae esse autem commodi eveniet recusandae eligendi aut provident sapiente? Distinctio quam autem nobis eveniet quae aperiam cumque reiciendis dolor repellat.</td>
+		      <td>10</td>
+		      <td><div class="btn-group">
+				<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  0
+				</button>
+				<div class="dropdown-menu">
+				  <a class="dropdown-item" href="#">1</a>
+				  <a class="dropdown-item" href="#">2</a>
+				  <a class="dropdown-item" href="#">3</a>
+				  <a class="dropdown-item" href="#">4</a>
+				</div>
+			  </div></td>
 		    </tr>
 		    <tr>
 		      <th scope="row">2</th>
 		      <td class="w-25">
 			      <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" alt="Sheep">
 		      </td>
-		      <td>Bootstrap Grid 4 Tutorial and Examples</td>
-		      <td>Cristina</td>
-		      <td>1.434</td>
-		      <td>3.417</td>
+			  <td>Motor Driver</td>
+			  <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione iusto quam aperiam vero! Nihil sunt autem illum odit optio voluptas officiis eaque iste! Itaque rem iste, animi est aut recusandae?</td>
+		      <td>13</td>
+		      <td><div class="btn-group">
+				<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  0
+				</button>
+				<div class="dropdown-menu">
+				  <a class="dropdown-item" href="#">1</a>
+				  <a class="dropdown-item" href="#">2</a>
+				  <a class="dropdown-item" href="#">3</a>
+				  <a class="dropdown-item" href="#">4</a>
+				</div>
+			  </div></td>
 		    </tr>
 		  </tbody>
 		</table>   
+		
     </div>
   </div>
 </div>
 <!-- partial -->
-  
+<button class="btn btn-info btn-lg" style="position: fixed; padding: 5px; bottom:5px;right:5px;margin:0;">New Issue Request</button>
 </body>
 </html>

@@ -129,7 +129,10 @@
             <span class="sr-only">Next</span>
           </a>
 
-        </div>
+      <div class="logo mr-auto">
+        <!-- <h1 class="text-light"><a><span>Robotronics Club</span></a></h1> -->
+      	<a><img src="assets/img/logo.png" alt="" style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
+       
       </div>
     </section><!-- End Hero -->
 
@@ -794,40 +797,38 @@
 
             </div>
 
-
-          <div class="col-lg-6 d-flex align-items-stretch contact-form-wrap">
-            <form action="/sendemail" method="post" role="form" class="php-email-form">
-              <div class="form-row">
-                <div class="col-md-6 form-group">
-                  <label for="name">Your Name</label>
-                  <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                  <div class="validate"></div>
-                </div>
+            <div class="col-lg-6 d-flex align-items-stretch contact-form-wrap">
+              <form action="forms/sendmail" method="post" role="form" class="php-email-form">
+                <div class="form-row">
+                  <div class="col-md-6 form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validate"></div>
+                  </div>
                   <div class="col-md-6 form-group">
                     <label for="email">Your Email</label>
                     <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
                     <div class="validate"></div>
                   </div>
                 </div>
-              <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                <div class="validate"></div>
-              </div>
-              <div class="form-group">
-                <label for="message">Message</label>
-                <textarea class="form-control" name="message" rows="8" data-rule="required" data-msg="Please write something for us"></textarea>
-                <div class="validate"></div>
-              </div>
-              <div class="mb-3">
-                <div class="loading">Loading</div>
-                <div class="error-message">Error Please Try Again!!</div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
-            </form>
+                <div class="form-group">
+                  <label for="subject">Subject</label>
+                  <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea class="form-control" name="message" rows="8" data-rule="required" data-msg="Please write something for us"></textarea>
+                  <div class="validate"></div>
+                </div>
+                <div class="mb-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message">Error Please Try Again!</div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+              </form>
             </div>
-
 
           </div>
 
@@ -895,7 +896,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  
   
 </body>
 <style>
