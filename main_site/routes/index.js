@@ -414,17 +414,18 @@ router.post('/issues/:id/accept', function (req, res, next) {
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
 
-  var component = new Issues(
-    {
+  // use new issues if you need to fully create it a new one
+  var component = {
       status: "Return-Pending",
       date_of_issue: yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made,
       _id: req.params.id
-    }
-  );
+    };
+
   Issues.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
     if (err) { return next(err); }
     res.json({success: 1, msg: "Return-Pending"});
   });
+
 });
 
 

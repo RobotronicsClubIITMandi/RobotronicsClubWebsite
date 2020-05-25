@@ -392,7 +392,7 @@
                       + '<div class="col">'
                         + '<!-- Accept Button -->'
                         + '<Button '
-                          + 'class="btn btn-success" '
+                          + 'class="btn btn-success" style="margin: 10px;" '
                           + 'onclick=acceptThisIssue("' + resArr[i]._id + '") >'
                           + 'Accept'
                         + '</button>'
@@ -400,7 +400,7 @@
                       + '<div class="col">'
                         + '<!-- Reject Button -->'
                         + '<Button '
-                          + 'class="btn btn-danger" '
+                          + 'class="btn btn-danger" style="margin: 10px;" '
                           + 'onclick=removeThisIssue("' + resArr[i]._id + '") >'
                           + 'Reject'
                         + '</button>'
@@ -408,7 +408,7 @@
                       + '<div class="col">'
                         + '<!-- Edit Button (To be added soon) -->'
                         + '<Button '
-                          + 'class="btn btn-secondary" '
+                          + 'class="btn btn-secondary" style="margin: 10px;" '
                           + 'onclick=editThisIssue("' + resArr[i]._id + '") >'
                           + 'Edit'
                         + '</button>'
@@ -445,17 +445,9 @@
                     + '<div class="row">'
                       + '<!-- Some Helpful buttons-->'
                       + '<div class="col">'
-                        + '<!-- Accept Button -->'
-                        + '<Button '
-                          + 'class="btn btn-success" '
-                          + 'onclick=acceptThisIssue("' + resArr[i]._id + '") >'
-                          + 'Accept'
-                        + '</button>'
-                      + '</div>'
-                      + '<div class="col">'
                         + '<!-- Remove Button -->'
                         + '<Button '
-                          + 'class="btn btn-danger" '
+                          + 'class="btn btn-danger" style="margin: 10px;" '
                           + 'onclick=removeThisIssue("' + resArr[i]._id + '") >'
                           + 'Remove'
                         + '</button>'
@@ -463,7 +455,7 @@
                       + '<div class="col">'
                         + '<!-- Edit Button (To be added soon) -->'
                         + '<Button '
-                          + 'class="btn btn-secondary" '
+                          + 'class="btn btn-secondary" style="margin: 10px;" '
                           + 'onclick=editThisIssue("' + resArr[i]._id + '") >'
                           + 'Edit'
                         + '</button>'
@@ -484,7 +476,7 @@
       }
     </script>
 
-    <!-- Script for expansion -->
+    <!-- Script for expansion and collapsion -->
     <script>
       function expandTileById(issueId){
         var tileById = document.getElementById(issueId);
@@ -511,6 +503,24 @@
       function acceptThisIssue(issueId){
 
         // Send the request to server to accept this issue request with _id = issueid
+        // Create the reciever
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if( this.status=200 && this.readyState==4 ){
+            
+            //console.log(this.responseText);
+            if(JSON.parse(this.responseText).success == 1){
+
+              // Accept succeed
+              // Now update the UI
+              addRequestIssues();
+            }
+          }
+        }
+
+        // Send requests
+        xhttp.open("POST", '/issues/' + issueId + '/accept', true);
+        xhttp.send();
       }
     </script>
 
