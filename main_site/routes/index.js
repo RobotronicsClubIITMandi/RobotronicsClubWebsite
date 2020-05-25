@@ -319,14 +319,14 @@ router.post('/projects/:id/update', function (req, res, next) {
 });
 
 /* REST APIs to handle Issues */
-// status: "pending","returned"
+// status: "Requested" - create ,"Return-Pending" - accept, "Returned" - clear
 /* Example
   {
-    "items": {},
+    "items": { "motors": "2", "ir sensor": "3" },
     "_id": "5ec7ef28846e22263826c1b1",
     "name": "Priyam",
     "email": "test@test.com",
-    "status": "returned",
+    "status": "Returned",
     "date_of_issue": "2020-05-22T00:00:00.000Z",
     "__v": 0
   }
@@ -338,13 +338,13 @@ For a normal user:
 
 For only admins
 /issues/all // Get the list of all the issues
-/issues/:id/accept // Accepting the issue - sets the status to "returned"
+/issues/:id/accept // Accepting the issue - sets the status to "Return-Pending"
 /issues/:id/delete // To remove from the database
 /issues/:id/reject // Not deleting just setting the status to rejected  // Not implemented
 */
 
 /**
- * API TO create a new issue with status "pending"
+ * API TO create a new issue with status "requested"
  * Send name, email, items in the JSON Body in the POST Request
  * Returns result in the form of JSON {success, msg}
  *  */
@@ -358,7 +358,7 @@ router.post('/issues/create', function (req, res, next) {
     {
       name: req.body.name,
       email: req.body.email,
-      status: "pending",
+      status: "Requested",
       //date_of_issue: "2020-05-22",
       date_of_issue:  yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made
       items: req.body.items // This should be in the form of HashMap
@@ -382,10 +382,10 @@ router.post('/issues/myissues', function(req, res, next) {
   console.log(email);
   Issues.find({ email: email}).exec(function (err, result) {
     if (err) {
-      console.log(err);
+      //console.log(err);
       res.json({ success: 0, msg: (err.toString())});
     }
-    console.log(result);
+    //console.log(result);
     res.json({success: 1, msg: result});
   });
 });
@@ -394,36 +394,38 @@ router.post('/issues/myissues', function(req, res, next) {
 /**
  * API To view all the current issues which are made
  * Response: {success, msg}
+ * isLoggedIn ensures that admin is working
  */
-router.get('/issues/all', function(req, res, next) {
+router.post('/issues/all', isLoggedIn, function(req, res, next) {
   Issues.find({}).exec(function (err, result) {
     if (err) {
       console.log(err);
       res.json({ success: 0, msg: (err.toString())});
     }
-    console.log(result);
+    //console.log(result);
     res.json({success: 1, msg: result});
   });
 });
 
 // API to accept the return request
-router.post('/issues/:id/return', function (req, res, next) {
+router.post('/issues/:id/accept', function (req, res, next) {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
 
-  var component = new Issues(
-    {
-      status: "returned",
-      date_of_return: yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made,
+  // use new issues if you need to fully create it a new one
+  var component = {
+      status: "Return-Pending",
+      date_of_issue: yyyy + '-' + mm + '-' + dd, // Automatically set the date when issue is made,
       _id: req.params.id
-    }
-  );
+    };
+
   Issues.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
     if (err) { return next(err); }
-    res.json({success: 1, msg: "returned"});
+    res.json({success: 1, msg: "Return-Pending"});
   });
+
 });
 
 
