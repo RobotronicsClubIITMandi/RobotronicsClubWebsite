@@ -1,0 +1,18 @@
+/* Adding horizontal scrolling for table */
+@media only screen and (max-width: 560px) {
+    /* horizontal scrollbar for tables if mobile screen */
+    .table {
+        overflow-x: auto;
+        display: block;
+    }
+}
+
+td { 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    word-wrap: break-word;
+}
+
+.table {
+    table-layout: fixed;
+}

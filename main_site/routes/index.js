@@ -459,7 +459,7 @@ router.post('/issues/all', isLoggedIn, function(req, res, next) {
 });
 
 // API to accept the return request
-router.post('/issues/:id/accept', function (req, res, next) {
+router.post('/issues/:id/accept', isLoggedIn, function (req, res, next) {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
