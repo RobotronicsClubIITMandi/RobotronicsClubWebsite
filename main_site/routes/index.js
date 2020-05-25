@@ -495,5 +495,9 @@ router.post('/issues/:id/delete', function (req, res, next) {
   });
 });
 
+router.post('/issues/check', function (req, res, next) {
+  console.log(req.body);
+  res.json({ success:1 , msg: "check" });
+});
 
 module.exports = router;
