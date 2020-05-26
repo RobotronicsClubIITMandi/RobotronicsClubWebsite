@@ -405,6 +405,8 @@ router.post('/issues/create', function (req, res, next) {
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
 
+  console.log(req.body);
+  
   var component = new Issues(
     {
       name: req.body.name,
@@ -495,9 +497,32 @@ router.post('/issues/:id/delete', function (req, res, next) {
   });
 });
 
+// API just for checking if the server is working or not
 router.post('/issues/check', function (req, res, next) {
   console.log(req.body);
   res.json({ success:1 , msg: "check" });
+});
+
+/**
+ * API To update any component issue
+ * Request: _id in params, item : { "motors": "3", "nodemcu": "2" } (Example)
+ * Response: {success, msg}
+ */
+router.post('/issues/:id/update', function(req, res, next) {
+
+  console.log(req.body);
+
+  var component = new Issues(
+    {
+      items: req.body.items,
+      _id: req.params.id
+    }
+  );
+  console.log(component);
+  Issues.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
+    if (err) { res.json({ "success": 0, msg: (err.toString()) }) }
+    res.json({ "success": 1, msg: "updated"});
+  });
 });
 
 module.exports = router;

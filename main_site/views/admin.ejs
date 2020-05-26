@@ -61,6 +61,13 @@
       margin: 24px;
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
     }
+
+    @media only screen and (max-width: 400px){
+      .request-item-tile {
+        margin-left: 4px;
+        margin-right: 4px;
+      }
+    }
   </style>
 
   <!-- =======================================================
@@ -312,10 +319,9 @@
         <!-- Script will add data here -->
         <div id="return-list-container"></div>
       </div>
-      <button type="button" class="btn btn-info btn-lg" id="myBtn">Open Modal</button>
     </section>
 
-    <!-- Modal -->
+    <!-- Edit Issue Modal -->
     <div class="modal fade bd-example-modal-lg" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" style="margin-top: 4rem;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -326,6 +332,9 @@
             </button>
           </div>
           <div class="modal-body">
+
+            <div id="modal-issue-id-holder" style="display: none;"></div>
+
             <!-- The Main content and form -->
             <div class="container-fluid modal-rows">
               <!-- Add item row wise here using js-->
@@ -334,9 +343,10 @@
           </div>
           <div class="modal-footer">
             <div id="select-more-item-dropdown" style="margin-right: auto;">
-              <select class="btn" style="border: 2px solid #1bbca3" onchange="addToModelBodyOnSelect()" id="add-item-issue-menu"></select></div>
+              <select class="btn" style="border: 2px solid #1bbca3" onchange="addToModelBodyOnSelect()" id="add-item-issue-menu"></select>
+            </div>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" onclick=sendRequestToUpdateIssue() >Save changes</button>
           </div>
         </div>
       </div>
@@ -362,7 +372,7 @@
     <!-- Scripts for updating the ui of requests -->
     <script>
       window.addEventListener('DOMContentLoaded', (event) => {
-        //console.log('DOM fully loaded and parsed');
+        // console.log('DOM fully loaded and parsed');
         addRequestIssues();
       });
     </script>
@@ -377,9 +387,9 @@
           if(this.readyState == 4 && this.status == 200){
             
             var resArr = JSON.parse(this.responseText).msg;
-            console.log(resArr);
+            // console.log(resArr);
 
-             // Now update the UI very carefully in <div id="section-requests-components">
+            // Now update the UI very carefully in <div id="section-requests-components">
             var requestSection = document.getElementById('issue-list-container');
             var returnSection = document.getElementById('return-list-container');
 
@@ -408,7 +418,7 @@
                 }
                 componentsTableString += '</tbody>'
                  + '</table><hr>';
-                //console.log(componentsTableString);
+                // console.log(componentsTableString);
 
 
               if(resArr[i].status === "Requested" || resArr[i].status === "requested"){
@@ -529,10 +539,10 @@
     <script>
       function expandTileById(issueId){
         var tileById = document.getElementById(issueId);
-        //console.log("Expand this: ", tileById);
+        // console.log("Expand this: ", tileById);
         
         var hideTileClass = tileById.getElementsByClassName('hidden-tile-view')[0];
-        //console.log(hideTileClass.style.display);
+        // console.log(hideTileClass.style.display);
 
         var expandCollapseBtn = tileById.getElementsByClassName('expand-collapse-btn')[0];
 
@@ -557,7 +567,7 @@
         xhttp.onreadystatechange = function() {
           if( this.status=200 && this.readyState==4 ){
             
-            //console.log(this.responseText);
+            // console.log(this.responseText);
             if(JSON.parse(this.responseText).success == 1){
 
               // Accept succeed
@@ -599,7 +609,7 @@
       }
     </script>
 
-    <!-- Script for preparing the modal -->
+    <!-- Script for preparing and displaying the modal -> exampleModal -->
     <script>
       function modalPrepare(issueId) {
         console.log("Open the model");
@@ -610,6 +620,9 @@
         
         var whereItIsCalled = document.getElementById(issueId);
         var whereItIsCalledHeaderList = whereItIsCalled.getElementsByClassName('row')[0].getElementsByClassName('col');
+
+        // Setting the id in the div of Modal for need in future
+        document.getElementById('modal-issue-id-holder').innerHTML = issueId;
 
         // setting the email of the user as heading
         modalTitle.innerHTML = whereItIsCalledHeaderList[1].innerHTML;
@@ -624,7 +637,7 @@
         var currentCountString = '';
         itemsIssueMap = {};
         for(var i=0; i < whereItIsCalledTableRows.length; i++){
-          //console.log(whereItIsCalledTableRows[i]);
+          // console.log(whereItIsCalledTableRows[i]);
           itemsIssueMap[whereItIsCalledTableRows[i].getElementsByTagName('td')[0].innerHTML] = parseInt( whereItIsCalledTableRows[i].getElementsByTagName('td')[1].innerHTML , 10);
 
           whereItIsCalledTds += '<div class="row" style="padding:4px;" >';
@@ -640,7 +653,7 @@
           var totalListHiddenJson = JSON.parse(document.getElementById('total-list-hidden').innerHTML);
 
           currentCount = parseInt( whereItIsCalledTableRows[i].getElementsByTagName('td')[1].innerHTML , 10);
-          //console.log(currentCount);
+          // console.log(currentCount);
 
           for(var j=1; j <= totalListHiddenJson[componentName] ; j++){
             if(j == currentCount){
@@ -660,9 +673,8 @@
           whereItIsCalled += '</div>'; // end of the row division
           
         }
-        console.log("itemsIssueMap", itemsIssueMap);  
-        window.itemsIssueMapModal = itemsIssueMap; //Initial rows here
-        //console.log(whereItIsCalled);
+        // console.log("itemsIssueMap", itemsIssueMap);  
+        // console.log(whereItIsCalled);
 
         // Adding all the rows created
         var modalRows = myModal.getElementsByClassName('modal-rows')[0];
@@ -676,7 +688,7 @@
         for(var i=0; i<itemsList.length; i++){
 
           if(itemsList[i].innerHTML in itemsIssueMap){
-            //console.log("Yes this item is already issued not add this");
+            // console.log("Yes this item is already issued not add this");
           } else {
             optionCreate += '<option value="' + itemsList[i].innerHTML + '" >' + itemsList[i].innerHTML + '</option>';
           }
@@ -689,16 +701,17 @@
       }
     </script>
 
+    <!-- Script for removing the row on delete -->
     <script>
       function removeThisModalRow(r){
 
         // Get the selected one r -> this
         var selectedRow = r.parentNode.parentNode; //This should not have space(but it has !problem)
-        //console.log(selectedRow);
+        // console.log(selectedRow);
 
         // Get the name of the item from the row
         var selectedRowName = selectedRow.getElementsByTagName('div')[0].innerHTML;
-        //console.log(selectedRowName);
+        // console.log(selectedRowName);
 
         // Add the item to the add-item-issue-menu <select>
         var addItemIssueMenu = document.getElementById('add-item-issue-menu');
@@ -714,13 +727,13 @@
         var addItemIssueMenu = document.getElementById('add-item-issue-menu'); // The <select>
         var selectedOption = addItemIssueMenu.value;
         var selectIndex = addItemIssueMenu.selectedIndex;
-        //console.log("Selected Option", selectedOption);
-        //console.log("selected Index", selectIndex);
+        // console.log("Selected Option", selectedOption);
+        // console.log("selected Index", selectIndex);
 
         // Now Adding to the main Modal
         var myModal = document.getElementById('exampleModal');
         var modalBodyRows = myModal.getElementsByClassName('modal-rows')[0];
-        //console.log(modalBodyRows);
+        // console.log(modalBodyRows);
 
         modalBodyRowsString = '';
         modalBodyRowsString += '<div class="row" style="padding: 4px;">';
@@ -745,7 +758,7 @@
         + '</div>'; // End of row
 
         modalBodyRows.innerHTML += modalBodyRowsString;
-        //console.log(modalBodyRows);
+        // console.log(modalBodyRows);
         // Done Main modal
 
         addItemIssueMenu.remove(selectIndex);
@@ -754,23 +767,65 @@
       }
     </script>
 
+    <!-- Script for updating by taking the values from the Modal and then updating -->
+    <script>
+      function sendRequestToUpdateIssue(){
+        var myModal = document.getElementById('exampleModal');
+        var issueId = document.getElementById('modal-issue-id-holder').innerHTML;
+        var modalRowsList = myModal.getElementsByClassName('modal-rows')[0].getElementsByClassName('row');
+        
+        var reqItems = {};
 
-  <!-- <script>
-    $(document).ready(function(){
-      $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        console.log(button);
-        console.log(recipient);
-        console.log(modal);
-        // modal.find('.modal-title').text('New message to ' + recipient)
-        // modal.find('.modal-body input').val(recipient)
-      })
-    });
-  </script> -->
+        // Get the name and thier count from the Modal and add in reqbody
+        var itemName = '';
+        var itemCount = '';
+        var row = '';
+        // console.log(modalRowsList);
+        for(var i=0; i < modalRowsList.length; i++){
+          row = modalRowsList[i].getElementsByTagName('div');
+          itemName = row[0].innerHTML;
+          itemCount = row[1].getElementsByTagName('select')[0].value;
+          // console.log(itemName);
+          // console.log(itemCount);
+          reqItems[itemName] = itemCount;
+        }
+
+        // Now the request body is ready, make the request
+        // console.log(reqItems);
+        
+        var reqbody = {
+          items: reqItems
+        };
+        // console.log(reqbody);
+
+        // Now send the data to update
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200 ) {
+
+            var resArr = JSON.parse(this.responseText);
+            if(resArr.success == 1){
+
+              console.log("Update successfully");
+              // Close the modal
+              $('#exampleModal').modal('hide');
+
+              // Update UI
+              addRequestIssues();
+
+            } else{
+              alert("Update Failed at server side!");
+            }
+          }
+        }
+
+        xhttp.open("POST", '/issues/' + issueId + '/update', true);
+        //Send the proper header information along with the request
+        xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
+        xhttp.send(JSON.stringify(reqbody));
+
+      }
+    </script>
 
   </main><!-- End #main -->
 
