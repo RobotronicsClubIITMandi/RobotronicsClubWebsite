@@ -406,7 +406,7 @@ router.post('/issues/create', function (req, res, next) {
   var yyyy = today.getFullYear();
 
   console.log(req.body);
-  
+
   var component = new Issues(
     {
       name: req.body.name,
@@ -509,8 +509,8 @@ router.post('/issues/check', function (req, res, next) {
  * Response: {success, msg}
  */
 router.post('/issues/:id/update', function(req, res, next) {
-
-  console.log(req.body);
+  
+  // console.log(req.body);
 
   var component = new Issues(
     {
@@ -518,7 +518,8 @@ router.post('/issues/:id/update', function(req, res, next) {
       _id: req.params.id
     }
   );
-  console.log(component);
+  // console.log(component);
+  
   Issues.findByIdAndUpdate(req.params.id, component, {}, function (err, thecomponent) {
     if (err) { res.json({ "success": 0, msg: (err.toString()) }) }
     res.json({ "success": 1, msg: "updated"});

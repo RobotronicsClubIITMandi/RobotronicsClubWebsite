@@ -300,6 +300,11 @@
           <p>Components Management System</p>
         </div>
 
+        <!-- Butto for reloading issues -->
+        <div style="text-align: center;">
+          <button class="btn btn-success" onclick=addRequestIssues()> Reload Requests</button>
+        </div>
+
         <!-- Requests -->
         <!-- Script will add data here -->
         <div id="issue-list-container"></div>
@@ -811,7 +816,23 @@
               $('#exampleModal').modal('hide');
 
               // Update UI
-              addRequestIssues();
+              // Not reload the whole UI
+              var issueTile = document.getElementById(issueId);
+              var issueTable = issueTile.getElementsByClassName('hidden-tile-view')[0].getElementsByTagName('table')[0];
+              // console.log(issueTable);
+
+              var issueTableString = '<tbody>';
+              
+              for(var xitem in reqItems) {
+                issueTableString += '<tr>'
+                  + '<td>' + xitem + '</td>'
+                  + '<td>' + reqItems[xitem] + '</td>'
+                  + '</tr>';
+              }
+              issueTableString += '</tbody>';
+              
+              // Update table
+              issueTable.innerHTML = issueTableString;
 
             } else{
               alert("Update Failed at server side!");
