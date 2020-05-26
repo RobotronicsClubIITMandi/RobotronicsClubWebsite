@@ -320,7 +320,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit Issue</h5>
+            <h6 class="modal-title" id="exampleModalLabel">Edit Issue</h6>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -333,7 +333,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <div id="select-more-item-dropdown" style="margin-right: auto;"><select id="add-item-menu"></select></div>
+            <div id="select-more-item-dropdown" style="margin-right: auto;">
+              <select class="btn" style="border: 2px solid #1bbca3" onchange="addToModelBodyOnSelect()" id="add-item-issue-menu"></select></div>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary">Save changes</button>
           </div>
@@ -342,11 +343,21 @@
     </div>
 
     <!-- use for getting list of items in modal -->
-    <ul id="components-list-hidden">
+    <ul id="components-list-hidden" style="display: none;">
       <% for( var index = 1; index <= inventory.length; index++ ) { %>
         <li><%= inventory[index-1].toJSON()['name'] %></li>
       <% } %>
-      </ul>
+    </ul>
+
+    <!-- total list of each item in the form of JSON -->
+    <div id="total-list-hidden" style="display: none;">
+      {
+      <% for( var index = 1; index < inventory.length; index++ ) { %>
+        "<%= inventory[index-1].toJSON()['name'] %>" : <%= inventory[index-1].toJSON()['total'] %>,
+      <% } %>
+      "<%= inventory[(inventory.length)-1].toJSON()['name'] %>" : <%= inventory[(inventory.length)-1].toJSON()['total'] %>
+      }
+    </div>
 
     <!-- Scripts for updating the ui of requests -->
     <script>
@@ -606,21 +617,32 @@
         // Get the items and their count list
         var whereItIsCalledTableRows = whereItIsCalled.getElementsByTagName('table')[0].getElementsByTagName('tr'); // Here inside <td> is the required values we need
 
+        // For modal body
         var ModalBodyTable = '';
         var whereItIsCalledTds = '';
         var currentCount = 0;
         var currentCountString = '';
+        itemsIssueMap = {};
         for(var i=0; i < whereItIsCalledTableRows.length; i++){
-          console.log(whereItIsCalledTableRows[i]);
-          whereItIsCalledTds += '<div class="row ' + whereItIsCalledTableRows[i].getElementsByTagName('td')[0].innerHTML + '" style="padding:4px;" >';
-          whereItIsCalledTds += '<div class="col-5">' + whereItIsCalledTableRows[i].getElementsByTagName('td')[0].innerHTML + '</div>';
+          //console.log(whereItIsCalledTableRows[i]);
+          itemsIssueMap[whereItIsCalledTableRows[i].getElementsByTagName('td')[0].innerHTML] = parseInt( whereItIsCalledTableRows[i].getElementsByTagName('td')[1].innerHTML , 10);
 
-          // Create a list of numbers for values
-          currentCount = parseInt( whereItIsCalledTableRows[i].getElementsByTagName('td')[1].innerHTML , 10);
-          console.log(currentCount);
-          whereItIsCalledTds += '<div class="col-3"> <select>';
+          whereItIsCalledTds += '<div class="row" style="padding:4px;" >';
           
-          for(var j=0; j <= (currentCount+5) ; j++){
+          // For the name of item
+          var componentName = whereItIsCalledTableRows[i].getElementsByTagName('td')[0].innerHTML;
+          whereItIsCalledTds += '<div class="col-5">' + componentName + '</div>';
+
+          // Create a list of numbers for values to issue
+          whereItIsCalledTds += '<div class="col-3"> <select>';
+
+          // Get the total of each item
+          var totalListHiddenJson = JSON.parse(document.getElementById('total-list-hidden').innerHTML);
+
+          currentCount = parseInt( whereItIsCalledTableRows[i].getElementsByTagName('td')[1].innerHTML , 10);
+          //console.log(currentCount);
+
+          for(var j=1; j <= totalListHiddenJson[componentName] ; j++){
             if(j == currentCount){
               whereItIsCalledTds += '<option value="' + j + '" selected>' + j + '</option>';
             } else{
@@ -628,36 +650,112 @@
             }
             
           }
-          //whereItIsCalledTds += '' + whereItIsCalledTableRows[i].getElementsByTagName('td')[1].innerHTML + '</div>';
           whereItIsCalledTds += '</select></div>';
 
-          // For delete button
+          // For delete button of that particular item
           whereItIsCalledTds += '<div class="col-4">'
-            + '<button class="btn btn-success" onclick="removeThisModalRow()" > Delete </button>' 
+            + '<button class="btn btn-success" onclick=removeThisModalRow(this) > Delete </button>' 
           + '</div>'
           + '</div>';
-          whereItIsCalled += '</div>';
+          whereItIsCalled += '</div>'; // end of the row division
           
         }
+        console.log("itemsIssueMap", itemsIssueMap);  
+        window.itemsIssueMapModal = itemsIssueMap; //Initial rows here
         //console.log(whereItIsCalled);
 
+        // Adding all the rows created
         var modalRows = myModal.getElementsByClassName('modal-rows')[0];
         modalRows.innerHTML = whereItIsCalledTds;
 
+
+        // Modal footer options create
         optionCreate = '';
+        optionCreate += '<option value="">Add</option>'
         var itemsList = document.getElementById('components-list-hidden').getElementsByTagName('li');
         for(var i=0; i<itemsList.length; i++){
-          optionCreate += '<option value="' + itemsList[i].innerHTML + '" >' + itemsList[i].innerHTML + '</option>';
+
+          if(itemsList[i].innerHTML in itemsIssueMap){
+            //console.log("Yes this item is already issued not add this");
+          } else {
+            optionCreate += '<option value="' + itemsList[i].innerHTML + '" >' + itemsList[i].innerHTML + '</option>';
+          }
         }
 
-        // this adds items at the add menu list of the modal footer
-        document.getElementById('add-item-menu').innerHTML = optionCreate;
+        // this adds items at the add menu list of the modal footer <select is created there with id add-item-issue-menu
+        document.getElementById('add-item-issue-menu').innerHTML = optionCreate;
 
         $("#exampleModal").modal(); // Opens the modal
       }
     </script>
 
-  <script>
+    <script>
+      function removeThisModalRow(r){
+
+        // Get the selected one r -> this
+        var selectedRow = r.parentNode.parentNode; //This should not have space(but it has !problem)
+        //console.log(selectedRow);
+
+        // Get the name of the item from the row
+        var selectedRowName = selectedRow.getElementsByTagName('div')[0].innerHTML;
+        //console.log(selectedRowName);
+
+        // Add the item to the add-item-issue-menu <select>
+        var addItemIssueMenu = document.getElementById('add-item-issue-menu');
+        addItemIssueMenu.innerHTML += '<option value="' + selectedRowName + '" >' + selectedRowName + '</option>';
+
+        selectedRow.remove(); // Removing the item from modal-row
+      }
+    </script>
+
+    <!-- Add from drop down to main body -->
+    <script>
+      function addToModelBodyOnSelect() {
+        var addItemIssueMenu = document.getElementById('add-item-issue-menu'); // The <select>
+        var selectedOption = addItemIssueMenu.value;
+        var selectIndex = addItemIssueMenu.selectedIndex;
+        //console.log("Selected Option", selectedOption);
+        //console.log("selected Index", selectIndex);
+
+        // Now Adding to the main Modal
+        var myModal = document.getElementById('exampleModal');
+        var modalBodyRows = myModal.getElementsByClassName('modal-rows')[0];
+        //console.log(modalBodyRows);
+
+        modalBodyRowsString = '';
+        modalBodyRowsString += '<div class="row" style="padding: 4px;">';
+
+        modalBodyRowsString += '<div class="col-5">' + selectedOption + '</div>'
+
+        modalBodyRowsString +=  '<div class="col-3"> <select>'
+          + '<option value="1" selected> 1 </option>';
+
+        // Get the total of each item
+        var totalListHiddenJson = JSON.parse(document.getElementById('total-list-hidden').innerHTML);
+
+        for(var j=2; j <= totalListHiddenJson[selectedOption] ; j++){
+          modalBodyRowsString += '<option value="' + j + '" >' + j + '</option>';
+        }
+
+        modalBodyRowsString += '</select></div>';
+
+        modalBodyRowsString += '<div class="col-4">'
+            + '<button class="btn btn-success" onclick=removeThisModalRow(this) > Delete </button>' 
+          + '</div>'
+        + '</div>'; // End of row
+
+        modalBodyRows.innerHTML += modalBodyRowsString;
+        //console.log(modalBodyRows);
+        // Done Main modal
+
+        addItemIssueMenu.remove(selectIndex);
+        // Set the option back to empty (Add)
+        addItemIssueMenu.value = "";
+      }
+    </script>
+
+
+  <!-- <script>
     $(document).ready(function(){
       $('#exampleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -672,7 +770,7 @@
         // modal.find('.modal-body input').val(recipient)
       })
     });
-  </script>
+  </script> -->
 
   </main><!-- End #main -->
 
