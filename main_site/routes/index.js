@@ -451,7 +451,7 @@ router.post('/issues/myissues', function(req, res, next) {
  * isLoggedIn ensures that admin is working
  */
 router.post('/issues/all', isLoggedIn, function(req, res, next) {
-  Issues.find({}).exec(function (err, result) {
+  Issues.find({}).sort({date_of_issue: 'descending'}).exec(function (err, result) {
     if (err) {
       console.log(err);
       res.json({ success: 0, msg: (err.toString())});
