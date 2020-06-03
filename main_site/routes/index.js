@@ -207,9 +207,10 @@ router.post('/news/create', function (req, res, next) {
       title: req.body.title,
       content: req.body.content,
       date_created: req.body.date_created
-     
+
     }
   );
+  // console.log(component.date_created);
   component.save(function (err) {
     if (err) { return next(err); }
     res.redirect('../admin');

@@ -140,11 +140,25 @@
 
             <div class="accordion-list">
               <ul id="news_ki_list">
-                <% for( var index = 1; index <= news.length && index <=10; index++ ) { %>
+              
+                
+                
+                
+                <% 
+                function date_sort(a, b) {
+                  return new Date(b.date_created).getTime() - new Date(a.date_created).getTime();
+              }
+              news.sort(date_sort);
+                
+                for( var index = 1; index <= news.length && index <=10; index++ ) { %>
                 <li style="border: black 1px solid;">
 
                   <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
-                    <span><%= index %> </span> <%= news[index-1].toJSON()['title'] %>
+                    <div class="row">
+                      <div class="col-10"> <span><%= index %> </span> <%= news[index-1].toJSON()['title'] %> </div>
+                      
+                      <div class="col-1"><%= news[index-1].toJSON()['date_created'].getDate() %>/<%= news[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= news[index-1].toJSON()['date_created'].getFullYear() %> </div>
+                    </div>
                     <i class="bx bx-chevron-down icon-show"></i>
                     <i class="bx bx-chevron-up icon-close"></i>
                   </a>
