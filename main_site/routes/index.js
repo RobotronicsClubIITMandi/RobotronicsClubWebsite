@@ -47,7 +47,7 @@ router.get('/', function (req, res, next) {
 router.get('/inventory', function (req, res, next) {
   Inventory.find({}).select('-_id').exec(function (err, result) {
     console.log(result);
-    res.render('inventory_2', { array: result });
+    res.render('inventory', { array: result });
   });
 });
 
