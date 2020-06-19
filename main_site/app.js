@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var logger = require('morgan');
 var modeMailer = require('nodemailer')
+var config = require('config');
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -13,8 +14,10 @@ var app = express();
 
 // Set up mongoose connection
 
+// console.log(config.get('name')); // Uncomment this line to check config is choosing which config file
+
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://dipanshu231099:password231099$$@dipanshu-icwfw.mongodb.net/RobotronicsClub?retryWrites=true&w=majority';
+var mongoDB = config.get('dbUrl');
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

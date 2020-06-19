@@ -155,6 +155,7 @@
             // Used overall variables
             window.email = "";
             window.uname = "";
+            // Changing these will have no effect as only for some tasks they are used
 
             // Important for UI for botht signOut and signIn
             // Set the display of the sign in and sign out buttons
@@ -203,8 +204,188 @@
             showUser.style.display="block";
             showUser.innerHTML += 'Welcome '+window.uname;
 
+            // Function to make a issue request
+            sendIssueRequestToServer=()=>{
+              //console.log("SEnding request!");
+
+              var reqItems = {};
+              var validReq = false;
+              // Getting the all selected items for making issue
+              var cheItems = document.getElementsByClassName('issue-row-count');  //HTMLCollection having all the select ones
+              //console.log(che);
+              //console.log(che.length);
+              for (var i = 0; i < cheItems.length; i++) {
+                //console.log(cheItems.item(i));
+                //console.log(cheItems.item(i).value);
+                //console.log(cheItems.item(i).name);
+                var itemCount = cheItems.item(i).value;
+                if (itemCount > 0) {
+                  validReq = true;
+                  reqItems[cheItems.item(i).name] = itemCount // Making the items json data
+                }
+              }
+
+              // Items list ready
+              console.log(reqItems);
+
+              if (validReq) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                  if (this.readyState == 4 && this.status == 200) {
+                    // If the adding item succeed!
+                    // Create a random show that the request is succeed! (alert)
+                    // Clear all the text Box
+                    var resArr = JSON.parse(this.responseText);
+                    //console.log(this.responseText);
+                    //console.log(this.responseText['success']);
+
+                    // This checks wheather the request succeed or not
+                    if (resArr['success'] == 1) {
+
+                      alert('Components Issue Request Submitted!');
+
+                      // Making the selections empty
+                      for (var i = 0; i < cheItems.length; i++) {
+                        //console.log(cheItems.item(i));
+                        //console.log(cheItems.item(i).value);
+                        //console.log(cheItems.item(i).name);
+                        cheItems.item(i).value = "0";
+                      }
+
+                      // Updating my issues
+                      getMyIssues(window.email);
+
+                    } else {
+                      alert('Request Failed!');
+                    }
+                  } // End of status if
+                };
+
+                // console.log(googleUser.getBasicProfile());
+                // The body parameters to send
+                var reqbody = {
+                  name: profile.getName(),
+                  email: profile.getEmail(),
+                  items: reqItems
+                };
+                //console.log(reqbody);
+
+                xhttp.open("POST", "/issues/create", true);
+                //Send the proper header information along with the request
+                xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
+
+                xhttp.send(JSON.stringify(reqbody));
+
+              } else {
+                alert('First, select atleast a component!');
+              }
+            }
+          
+            getMyIssues=(email)=> {
+
+              // Defining request body
+              var reqbody = {
+                email: email
+              }
+
+              // Make request and get response
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                  var resArr = JSON.parse(this.responseText);
+                  console.log(resArr);
+                  if (resArr.success == 1) {
+
+                    // Get the myissues section
+                    var section = document.getElementById('myissues-section');
+                    section.innerHTML = '';
+
+                    var issuesData = resArr.msg;
+                    for (var i = issuesData.length - 1; i >= 0; i--) {
+                      //console.log(issuesData[i]);
+
+                      var componentsTableString = '<table class="table" id="request-history-component-table">'
+                        + '<tbody>';
+                      var itemsLength = issuesData[i].items.length;
+                      for (var key in issuesData[i].items) {
+                        componentsTableString += '<tr>'
+                          + '<td>' + key + '</td>'
+                          + '<td>' + issuesData[i].items[key] + '</td>'
+                          + '</tr>';
+                      }
+                      componentsTableString += '</tbody>'
+                        + '</table><hr>';
+                      //console.log(componentsTableString);
+
+                      var cancelRequestButton = '';
+                      var showAcceptedText = '<h3 style="color: green">Accepted and Component Issued</h3>';
+                      if (issuesData[i].status === "Requested") {
+                        //console.log("Yes show cancel button");
+                        cancelRequestButton = '<Button class="btn btn-danger"'
+                          + ' onclick=removeIssue("' + issuesData[i]._id + '")> Cancel'
+                          + '</button>';
+                        showAcceptedText = '';
+                      }
+
+                      // Now update the UI
+                      section.innerHTML += '<div class="myissues-section-tile">'
+                        + '<h3 class="inline-items" style="text-align: left; float: left"> Date: ' + issuesData[i].date_of_issue.toString().substr(0, 10) + '</h3>'
+                        + '<h3 class="inline-items" style="text-align: right; float: right">' + issuesData[i].status + '</h3>'
+                        + '<br><br>'
+                        + componentsTableString
+                        + cancelRequestButton
+                        + showAcceptedText
+                        + '</div>';
+
+                    }
+
+                  } else {
+                    console.log("Getting my issues failed!");
+                  }
+                } // End of status if
+              }
+
+              // Defining parameters 
+              xhttp.open("POST", "/issues/myissues", true);
+              //Send the proper header information along with the request
+              xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
+
+              xhttp.send(JSON.stringify(reqbody));
+
+            }
+          
+            removeIssue = (issueId) => {
+
+              // Make request and get response
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                  var resArr = JSON.parse(this.responseText);
+                  //console.log(resArr);
+
+                  if (resArr.success == 1) {
+                    //console.log("Successfuly deleted!");
+
+                    // Update the list and UI
+                    getMyIssues(profile.getEmail());
+
+                  } else {
+                    console.log("Problem at server side!");
+                  }
+
+                } // End of status if
+              }
+
+              // Defining parameters 
+              xhttp.open("POST", '/issues/' + issueId + '/delete', true);
+              xhttp.send();
+
+            }
+
             // Updating my issues
-            getMyIssues(window.email);
+            getMyIssues(profile.getEmail());
 
           }
         </script>
@@ -269,195 +450,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Script for making issue -->
-    <script>
-      function sendIssueRequestToServer(){
-        //console.log("SEnding request!");
-        
-        var reqItems = {};
-        var validReq = false;
-        // Getting the all selected items for making issue
-        var cheItems = document.getElementsByClassName('issue-row-count');  //HTMLCollection having all the select ones
-        //console.log(che);
-        //console.log(che.length);
-        for(var i = 0; i < cheItems.length; i++){
-          //console.log(cheItems.item(i));
-          //console.log(cheItems.item(i).value);
-          //console.log(cheItems.item(i).name);
-          var itemCount = cheItems.item(i).value;
-          if(itemCount>0) { 
-            validReq = true;
-            reqItems[cheItems.item(i).name] = itemCount // Making the items json data
-            }
-        }
-
-        // Items list ready
-        console.log(reqItems);
-
-        if(validReq){
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              // If the adding item succeed!
-              // Create a random show that the request is succeed! (alert)
-              // Clear all the text Box
-              var resArr = JSON.parse(this.responseText);
-              //console.log(this.responseText);
-              //console.log(this.responseText['success']);
-
-              // This checks wheather the request succeed or not
-              if(resArr['success'] == 1){
-
-                alert('Components Issue Request Submitted!');
-
-                // Making the selections empty
-                for(var i = 0; i < cheItems.length; i++){
-                  //console.log(cheItems.item(i));
-                  //console.log(cheItems.item(i).value);
-                  //console.log(cheItems.item(i).name);
-                  cheItems.item(i).value = "0";
-                }
-
-                // Updating my issues
-                getMyIssues(window.email);
-
-              } else {
-                alert('Request Failed!');
-              }
-            } // End of status if
-          };
-
-          // The body parameters to send
-          var reqbody = {
-            name: window.uname,
-            email: window.email,
-            items: reqItems
-          };
-          //console.log(reqbody);
-
-          xhttp.open("POST", "/issues/create", true);
-          //Send the proper header information along with the request
-          xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
-
-          xhttp.send(JSON.stringify(reqbody));
-
-        } else {
-          alert('First, select atleast a component!');
-        }
-      }
-    </script>
-
-    <!-- Get the issues made by me -->
-    <script>
-      function getMyIssues(email){
-        
-        // Defining request body
-        var reqbody = {
-          email: email
-        }
-
-        // Make request and get response
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-
-            var resArr = JSON.parse(this.responseText);
-            console.log(resArr);
-            if(resArr.success == 1){
-
-              // Get the myissues section
-              var section = document.getElementById('myissues-section');
-              section.innerHTML = '';
-
-              var issuesData = resArr.msg;
-              for(var i = issuesData.length-1; i >=0 ; i--) {
-                //console.log(issuesData[i]);
-
-                var componentsTableString = '<table class="table" id="request-history-component-table">'
-                  + '<tbody>';
-                var itemsLength = issuesData[i].items.length;
-                for(var key in issuesData[i].items) {
-                  componentsTableString += '<tr>'
-                    + '<td>' + key + '</td>'
-                    + '<td>' + issuesData[i].items[key] + '</td>'
-                    + '</tr>';
-                }
-                componentsTableString += '</tbody>'
-                 + '</table><hr>';
-                //console.log(componentsTableString);
-
-                var cancelRequestButton = '';
-                var showAcceptedText = '<h3 style="color: green">Accepted and Component Issued</h3>';
-                if(issuesData[i].status === "Requested"){
-                  //console.log("Yes show cancel button");
-                  cancelRequestButton = '<Button class="btn btn-danger"'
-                    + ' onclick=removeIssue("' + issuesData[i]._id + '")> Cancel'
-                    + '</button>';
-                  showAcceptedText ='';
-                }
-
-                // Now update the UI
-                section.innerHTML += '<div class="myissues-section-tile">'
-                    +'<h3 class="inline-items" style="text-align: left; float: left"> Date: ' + issuesData[i].date_of_issue.toString().substr(0,10) + '</h3>'
-                  + '<h3 class="inline-items" style="text-align: right; float: right">' + issuesData[i].status + '</h3>'
-                  + '<br><br>'
-                  + componentsTableString
-                  + cancelRequestButton
-                  + showAcceptedText
-                  + '</div>'; 
-
-              }
-
-            } else {
-              console.log("Getting my issues failed!");
-            }
-          } // End of status if
-        }
-
-        // Defining parameters 
-        xhttp.open("POST", "/issues/myissues", true);
-        //Send the proper header information along with the request
-        xhttp.setRequestHeader("Content-Type", "application/json"); // Necessary for POST
-
-        xhttp.send(JSON.stringify(reqbody));
-
-      }
-    </script>
-
-    <script>
-      function removeIssue(issueId){
-        
-        // Make request and get response
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-
-            var resArr = JSON.parse(this.responseText);
-            //console.log(resArr);
-
-            if(resArr.success == 1){
-              //console.log("Successfuly deleted!");
-              
-              // Update the list and UI
-              getMyIssues(window.email);
-
-            } else{
-              console.log("Problem at server side!");
-            }
-
-          } // End of status if
-        }
-
-        // Defining parameters 
-        xhttp.open("POST", '/issues/'+ issueId +'/delete', true);
-        xhttp.send();
-
-      }
-    </script>
-
-
-        <!-- ======= Contact Us Section ======= -->
 
   </main><!-- End #main -->
 
