@@ -418,6 +418,14 @@ router.post('/issues/create', function (req, res, next) {
       items: req.body.items // This should be in the form of HashMap
     }
   );
+  Inventory.updateOne({name:"motor"},{available:10},function(err,result){
+    if(err){
+      res.send(err);
+    }
+    else{
+      res.send(result);
+    }
+  });
   component.save(function (err) {
     if (err) {
       console.log(err);
