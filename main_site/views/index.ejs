@@ -17,6 +17,7 @@
   
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link href="//db.onlinewebfonts.com/c/d1a880e08bdb2140abd96f8f8d2d9515?family=Bloc" rel="stylesheet" type="text/css"/>
   <!-- Favicons -->
   <link href="assets/img/logo.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -137,11 +138,11 @@
     </section><!-- End Hero -->
 
     <!-- ======= Header ======= -->
-    <header id="header">
+    <header id="header" style="background-color: #3d4f4c; color: #fff;">
       <div class="container d-flex">
 
         <div class="logo mr-auto">
-        	<a href="index.html"><img src="assets/img/logo.png" alt="" style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
+        	<a href="/#"><img src="assets/img/logo.png" alt="" style="float:left;height: 70%;" class="img-fluid"></a>
          
           
         </div>
@@ -149,7 +150,7 @@
         <nav class="nav-menu d-none d-lg-block">
           <ul>
             <li><a href="#header">Home</a></li>
-            <li><a href="#calender">Calender</a></li>
+            <li><a href="#calender">Notifications</a></li>
             <li><a href="#services">Achievements</a></li>
             <li><a href="#projects">Projects</a></li>
             <li ><a href="#inventory">Inventory</a></li>
@@ -183,7 +184,9 @@
             <div class="col-sm-6" >
 
               <div class="content">
-                <h3>Notifications</h3>
+                <div class="section-title">
+                  <h2>Notifications</h2>
+                </div>
                
               </div>
               
@@ -196,14 +199,14 @@
                 news.sort(date_sort);
                   
                   for( var index = 1; index <= news.length && index<=4 ; index++ ) { %>
-                    <li style="border: black 1px solid;">
+                    <li style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);">
 
                       <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
                         <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
                           <div class="row">
                             <div class="col-10"> <span><%= index %> </span> <%= news[index-1].toJSON()['title'] %> </div>
                             
-                            <div class="col-1"><%= news[index-1].toJSON()['date_created'].getDate() %>/<%= news[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= news[index-1].toJSON()['date_created'].getFullYear() %> </div>
+                            <div class="col-1" style="font-size: small;"><%= news[index-1].toJSON()['date_created'].getDate() %>/<%= news[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= news[index-1].toJSON()['date_created'].getFullYear() %> </div>
                           </div>
                         <i class="bx bx-chevron-down icon-show"></i>
                         <i class="bx bx-chevron-up icon-close"></i>
@@ -217,9 +220,8 @@
                   <% } %>
                   <br>
                   <% if (news.length>3) {%>
-                    <li style="text-align:center">
-                          <a href="/notifications" class="btn">Show All</a>
-                    </li>
+                          <a href="/notifications" class="cta-btn" style="text-align: right;">Show All</a>
+                    
                   <% } %>
                 </ul>
               </div>
@@ -296,7 +298,7 @@
         <div class="container">
           <div class="section-title">
             <h2>Our Projects</h2>
-            <p>These are the ongoing projects.Older projects can be found on &nbsp;<a href="#">Archive </a></p>
+            <p>These are the ongoing projects. Older projects can be found on &nbsp;<a href="#">Archive </a></p>
           </div>
 
           <div class="row">

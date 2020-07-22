@@ -42,22 +42,22 @@
 
   <!-- ======= Header ======= -->
   <!-- ======= Header ======= -->
-  <header id="header">
+  <header id="header" style="background-color: #3d4f4c; color: #fff;">
     <div class="container d-flex">
 
       <div class="logo mr-auto">
-        <a href="index.html"><img src="assets/img/logo.png" alt=""
-            style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
+        <a href="/#"><img src="assets/img/logo.png" alt=""
+            style="float:left;height: 70%;" class="img-fluid"></a>
 
 
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li><a href="/inventory">Club-Inventory</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="/notifications">Notifications</a></li>
           <li><a href="/projects">Projects</a></li>
-          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="/inventory">Inventory</a></li>
 
         </ul>
       </nav><!-- .nav-menu -->
@@ -86,10 +86,6 @@
 
           <div class="col-sm-12">
 
-            <div class="content">
-              <h3>NEWS</h3>
-
-            </div>
 
             <div class="accordion-list">
               <ul id="news_ki_list">
@@ -99,13 +95,13 @@
               }
               data.sort(date_sort);
                 for( var index = 1; index <= data.length ; index++ ) { %>
-                  <li style="border: black 1px solid;">
+                  <li style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);">
 
                     <a data-toggle="collapse" class="collapse" href="#accordion-list-<%= index %>">
                       <div class="row">
                         <div class="col-11"> <span><%= index %> </span> <%= data[index-1].toJSON()['title'] %> </div>
                         
-                        <div class="col-1"><%= data[index-1].toJSON()['date_created'].getDate() %>/<%= data[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= data[index-1].toJSON()['date_created'].getFullYear() %> </div>
+                        <div class="col-1" style="font-size: small;"><%= data[index-1].toJSON()['date_created'].getDate() %>/<%= data[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= data[index-1].toJSON()['date_created'].getFullYear() %> </div>
                       </div>
                       
                       
