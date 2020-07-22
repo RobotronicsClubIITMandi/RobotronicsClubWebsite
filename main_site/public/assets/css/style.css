@@ -190,6 +190,14 @@ h1, h2, h3, h4, h5, h6 {
   right: 15px;
 }
 
+@media (max-width: 1640px) {
+  #notif-date{
+    display: none;
+  }
+}
+
+
+
 @media (max-width: 1366px) {
   .nav-menu .drop-down .drop-down ul {
     left: -90%;

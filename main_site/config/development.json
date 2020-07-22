@@ -1,9 +1,0 @@
-{
-    "name": "Development Mode",
-    "dbUrl": "",
-    "adminUsername": "",
-    "adminPassword": "",
-    "mailFromEmail": "robotronics@students.iitmandi.ac.in",
-    "mailFromPassword": "",
-    "mailToEmail": "robotronics@students.iitmandi.ac.in"
-}

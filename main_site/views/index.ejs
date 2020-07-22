@@ -132,11 +132,7 @@
             <span class="sr-only">Next</span>
           </a>
 
-      <div class="logo mr-auto">
-        <!-- <h1 class="text-light"><a><span>Robotronics Club</span></a></h1> -->
-      	<a><img src="assets/img/logo.png" alt="" style="float:left;height: 70%;background-color: black;" class="img-fluid"></a>
-       
-      </div>
+     
     </section>
     
     
@@ -820,7 +816,7 @@
                 <div class="col-lg-6 info info-bg d-flex flex-column align-items-stretch">
                   <i class="bx bx-envelope"></i>
                   <h4>Email Us</h4>
-                  <p>robotronics@iitmandi.ac.in</p>
+                  <p>robotronics@students.iitmandi.ac.in</p>
                 </div>
                 <div class="col-lg-6 info d-flex flex-column align-items-stretch">
                   <i class="bx bx-time-five"></i>
@@ -931,7 +927,15 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   
-  
+  <script type="text/javascript"> // RELOADS WEBPAGE WHEN MOBILE ORIENTATION CHANGES  
+    window.onorientationchange = function() { 
+        var orientation = window.orientation; 
+            switch(orientation) { 
+                case 0:
+                case 90:
+                case -90: window.location.reload(); 
+                break; } 
+            };</script>
 </body>
 <style>
   .card{
