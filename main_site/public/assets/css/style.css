@@ -1242,6 +1242,9 @@ section {
   .contact .php-email-form {
     padding: 15px 0 0 0;
   }
+  #notif-date{
+    display: none;
+  }
 }
 
 @-webkit-keyframes animate-loading {
