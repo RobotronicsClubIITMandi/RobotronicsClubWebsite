@@ -1,0 +1,9 @@
+{
+    "name": "Development Mode",
+    "dbUrl": "mongodb+srv://dipanshu231099:password231099$$@dipanshu-icwfw.mongodb.net/RobotronicsClub?retryWrites=true&w=majority",
+    "adminUsername": "admin",
+    "adminPassword": "admin",
+    "mailFromEmail": "robotronics@students.iitmandi.ac.in",
+    "mailFromPassword": "",
+    "mailToEmail": "robotronics@students.iitmandi.ac.in"
+}

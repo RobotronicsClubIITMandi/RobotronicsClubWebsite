@@ -6,6 +6,7 @@ var Projects = require('../models/projects');
 var Issues = require('../models/issues');
 
 var nodeMailer = require('nodemailer');
+var config = require('config');
 
 var async = require('async');
 
@@ -105,8 +106,10 @@ router.post('/admin/login', function(req, res, next){
   var un = req.body.username;
   var passwd = req.body.password;
   
+  var correctUn = config.get('adminUsername');
+  var correctPasswd = config.get('adminPassword');
   // Now check condition
-  if(un==='admin' && passwd==='admin'){
+  if(un===correctUn && passwd===correctPasswd){
     req.session.islogin=true;
     req.session.user=un;
     res.redirect('/admin');  // Redirect him to admin page after successfull login
@@ -323,25 +326,30 @@ router.post('/projects/:id/update', function (req, res, next) {
 
 /* For mailing one done by Rohan */
 router.post('/sendemail', function(req, res){
-  var message = ""
+  var message = "";
+
+  var mailEmail = config.get('mailFromEmail');
+  var mailPassword = config.get('mailFromPassword');
+  var mailToEmail = config.get('mailToEmail');
+
   let mailer = nodeMailer.createTransport({
       host:'smtp.gmail.com',
       port: 587,
       secure: false,
       auth: {
-          user: 'roboticsiitmandi123@gmail.com', // Test Email
-          pass: 'robotics@123'
+          user: mailEmail, // Email of the website from which id to send mail
+          pass: mailPassword
       }
   });
   let mailOptions = {
-    from: '"Robotronics" <roboticsiitmandi@gmail.com>',
+    from: '"Robotronics" <robotronics@students.iitmandi.ac.in>',
     to: req.body.email, 
     subject: "Message Recieved",
     html: 'Your Message have been recieved.<br>Regards<br><b>Robotronivs Club,</b><br><b>IIT Mandi</b>'
   };
   let mailOptions1 = { // This is the section where email to send details go.
-    from: '"Robotronics" <roboticsiitmandi@gmail.com>',
-    to: "rrk15012002@gmail.com", 
+    from: '"Robotronics" <robotronics@students.iitmandi.ac.in>',
+    to: mailToEmail,
     subject: "You have got an message", 
     html: `<b>From:</b> ${req.body.email}<br> <b>Name:</b> ${req.body.name}<br> <b>Subject:</b> ${req.body.subject}<br> <b>Message:</b> ${req.body.message}`
     
@@ -459,7 +467,7 @@ router.post('/issues/myissues', function(req, res, next) {
  * isLoggedIn ensures that admin is working
  */
 router.post('/issues/all', isLoggedIn, function(req, res, next) {
-  Issues.find({}).exec(function (err, result) {
+  Issues.find({}).sort({date_of_issue: 'descending'}).exec(function (err, result) {
     if (err) {
       console.log(err);
       res.json({ success: 0, msg: (err.toString())});
