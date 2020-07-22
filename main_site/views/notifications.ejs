@@ -101,12 +101,12 @@
                       <div class="row">
                         <div class="col-11"> <span><%= index %> </span> <%= data[index-1].toJSON()['title'] %> </div>
                         
-                        <div class="col-1" style="font-size: small;"><%= data[index-1].toJSON()['date_created'].getDate() %>/<%= data[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= data[index-1].toJSON()['date_created'].getFullYear() %> </div>
+                        <div id="notif-date" class="col-1" style="font-size: small;"><%= data[index-1].toJSON()['date_created'].getDate() %>/<%= data[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= data[index-1].toJSON()['date_created'].getFullYear() %> </div>
                       </div>
                       
                       
-                      <i class="bx bx-chevron-down icon-show"></i>
-                      <i class="bx bx-chevron-up icon-close"></i>
+                      <i class="bx bx-chevron-down icon-close"></i>
+                      <i class="bx bx-chevron-up icon-show"></i>
                     </a>
   
                     <div id="accordion-list-<%= index %>" class="collapse" data-parent=".accordion-list">

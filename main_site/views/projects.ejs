@@ -86,17 +86,20 @@
             <div class="card">
               <!-- <img src="assets/img/about.jpg" class="card-img-top" alt="..."> -->
               <div class="card-body">
-                <h5 class="card-title"><a href=""><%= data[index].toJSON()['name'] %></a></h5>
+                <h4 class="card-title"><a href=""><%= data[index].toJSON()['name'] %></a></h4>
+                <i>
                 <p class="card-text">
-                  <i>
+                  
                     <%= data[index].toJSON()['description'] %>
-                  </i>
+                  
                 </p>
+              </i>
+              <br> 
                 <p class="card-text">
-                  project team: 
+                  <b>Project Team</b> 
                   <ul>
-                    <li style="text-align-last:left;">Mentor: <%= data[index].toJSON()['mentor'] %></li>
-                    <li style="text-align-last:left;">Team: <%= data[index].toJSON()['team'] %></li>
+                    <li style="text-align-last:left;"><b>Mentor:</b> <%= data[index].toJSON()['mentor'] %></li>
+                    <li style="text-align-last:left;"><b>Team:</b> <%= data[index].toJSON()['team'] %></li>
                   </ul>
                 </p>
                 <a href="#" class="btn">Explore more</a>

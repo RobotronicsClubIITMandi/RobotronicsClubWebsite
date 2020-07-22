@@ -101,15 +101,15 @@
               <div class="carousel-background"><img src="assets/img/slide/slide-2.jpg" alt=""></div>
               <div class="carousel-container">
                 <div class="carousel-content">
-                  <h2 class="animated fadeInDown">Ongoing Event 1</h2>
-                  <p class="animated fadeInUp">CONTENT</p>
+                  <h2 class="animated fadeInDown">Welcome to <span>Robotronics Club</span><Br><span>IIT MANDI</span></h2>
+                  <!-- <p class="animated fadeInUp">CONTENT</p> -->
                   <a href="#about" class="btn-get-started animated fadeInUp scrollto">Get Started</a>
                 </div>
               </div>
             </div>
 
             <!-- Slide 3 -->
-            <div class="carousel-item">
+            <!-- <div class="carousel-item">
               <div class="carousel-background"><img src="assets/img/slide/slide-3.jpg" alt=""></div>
               <div class="carousel-container">
                 <div class="carousel-content">
@@ -118,7 +118,7 @@
                   <a href="#about" class="btn-get-started animated fadeInUp scrollto">Get Started</a>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           </div>
 
@@ -212,10 +212,11 @@
                           <div class="row">
                             <div class="col-10"> <span><%= index %> </span> <%= news[index-1].toJSON()['title'] %> </div>
                             
-                            <div class="col-1" style="font-size: small;"><%= news[index-1].toJSON()['date_created'].getDate() %>/<%= news[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= news[index-1].toJSON()['date_created'].getFullYear() %> </div>
+                            <div id="notif-date" class="col-1" style="font-size: small;"><%= news[index-1].toJSON()['date_created'].getDate() %>/<%= news[index-1].toJSON()['date_created'].getMonth()+1 %>/<%= news[index-1].toJSON()['date_created'].getFullYear() %> </div>
                           </div>
-                        <i class="bx bx-chevron-down icon-show"></i>
-                        <i class="bx bx-chevron-up icon-close"></i>
+                          <i class="bx bx-chevron-up icon-show"></i>
+                          <i class="bx bx-chevron-down icon-close"></i>
+                        
                       </a>
     
                       <div id="accordion-list-<%= index %>" class="collapse" data-parent=".accordion-list">
@@ -314,17 +315,18 @@
                 <div class="card">
                   <!-- <img src="assets/img/about.jpg" class="card-img-top" alt="..."> -->
                   <div class="card-body">
-                    <h5 class="card-title"><a href=""><%= projects[index].toJSON()['name'] %></a></h5>
-                    <p class="card-text">
-                      <i>
+                    <h4 class="card-title"><a href=""><%= projects[index].toJSON()['name'] %></a></h4>
+                    <i>
+                    <p class="card-text" style="font-weight: lighter;">
                         <%= projects[index].toJSON()['description'] %>
-                      </i>
                     </p>
+                  </i>
+                  <br>
                     <p class="card-text">
-                      project team: 
+                      <b>Project Team</b> 
                       <ul>
-                        <li style="text-align-last:left;">Mentor: <%= projects[index].toJSON()['mentor'] %></li>
-                        <li style="text-align-last:left;">Team: <%= projects[index].toJSON()['team'] %></li>
+                        <li style="text-align-last:left;"><b>Mentor:</b> <%= projects[index].toJSON()['mentor'] %></li>
+                        <li style="text-align-last:left;"><b>Team:</b> <%= projects[index].toJSON()['team'] %></li>
                       </ul>
                     </p>
                     <a href="/projects" class="btn">Explore more</a>
@@ -898,14 +900,14 @@
 
       <div class="container">
         <div class="copyright">
-          Made with ❤️ by <strong><span>Robotrocics Club, IIT MANDI</span></strong>.
+          Made with ❤️ by <strong><span>Robotronics Club, IIT MANDI</span></strong>.
         </div>
         <div class="credits">
           <!-- All the links in the footer should remain intact. -->
           <!-- You can delete the links only if you purchased the pro version. -->
           <!-- Licensing information: https://bootstrapmade.com/license/ -->
           <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
-          Designed by Dipanshu, Nidhi, Pratyush, Priyam and Rohan
+          Designed by Robotronics Core Team 2020
         </div>
       </div>
     </footer><!-- End Footer -->
