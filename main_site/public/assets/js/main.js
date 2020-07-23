@@ -125,21 +125,6 @@
     return false;
   });
 
-  // Skills section
-  $('.skills-content').waypoint(function() {
-    $('.progress .progress-bar').each(function() {
-      $(this).css("width", $(this).attr("aria-valuenow") + '%');
-    });
-  }, {
-    offset: '80%'
-  });
-
-  // jQuery counterUp
-  $('[data-toggle="counter-up"]').counterUp({
-    delay: 10,
-    time: 1000
-  });
-
   // Porfolio isotope and filter
   $(window).on('load', function() {
     // Hide the Pre-Loader and show the main content
@@ -149,31 +134,30 @@
       $("body").css({"background":"white"});
       //console.log("successfully executed");
     }catch(err){
-      console.log("This error comes where prelaoder is not needed");
-      console.log(err);
+      console.log("Preloader not needed");
+      // console.log(err);
     }
 
-    // For the team to which to be shown first
-    var portfolioIsotope = $('.portfolio-container').isotope({
-      filter: '.mentor',
-      itemSelector: '.portfolio-item ',
-      layoutMode: 'fitRows'
-    });
-
-    // Click action to the team section
-    $('#portfolio-flters li').on('click', function() {
-      $("#portfolio-flters li").removeClass('filter-active');
-      $(this).addClass('filter-active');
-
-      portfolioIsotope.isotope({
-        filter: $(this).data('filter')
+    try {
+      // For the team to which to be shown first
+      var portfolioIsotope = $('.portfolio-container').isotope({
+        filter: '.mentor',
+        itemSelector: '.portfolio-item ',
+        layoutMode: 'fitRows'
       });
-    });
-
-    // Initiate venobox (lightbox feature used in portofilo)
-    $(document).ready(function() {
-      $('.venobox').venobox();
-    });
+  
+      // Click action to the team section
+      $('#portfolio-flters li').on('click', function() {
+        $("#portfolio-flters li").removeClass('filter-active');
+        $(this).addClass('filter-active');
+  
+        portfolioIsotope.isotope({
+          filter: $(this).data('filter')
+        });
+      });
+    } catch(err){
+      console.log("Isotope not needed!");
+    }
   });
 
 })(jQuery);
