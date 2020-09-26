@@ -1,8 +1,6 @@
 # RobotronicsClubWebsite
+The official website for robotronics club, IIT Mandi.
+This project works upon Node.js with EJS as templating language.
 
-
-The official website for robotronics club
-
-To be updated with **how to start the server** and adding config file.
-
-There is an issue to do this, if interested try it!
+## Want to contribute?
+**To get started working upon open [Contributors.md](contributors.md) file**
