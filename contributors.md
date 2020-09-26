@@ -5,10 +5,10 @@
 ```
 cd main_site
 ```
-3. Install dependencies using npm - Run 
+3. Install dependencies using npm  
 ```
 npm install
-```.
+```
 4. Now you need a configuration file to run the server. so, for that create a `config` folder in the `main_site` folder. Then create a file `development.json` with the following content.
 ```
 {
@@ -26,19 +26,19 @@ Here `dbURL` is the mongoDB databse URL which you want to use which we will sugg
 ```
 npm start
 ```
-```
-You may better use nodemon to start the server.
-To install nodemon on
-* Windows run 
+
+You may better use nodemon to start the development server.<br />
+To install nodemon
+* On Windows run 
 ```
 npm install -g nodemon
 ```
-* Ubuntu run 
+* On Ubuntu run 
 ```
 sudo npm install -g nodemon
-```.
-now run 
+```
+Now run 
 ```
 nodemon
 ``` 
-to start the development server.
+It will start the development server.
