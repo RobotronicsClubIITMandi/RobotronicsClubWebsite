@@ -20,8 +20,9 @@ npm install
     "mailFromPassword": "",
     "mailToEmail": "robotronics@students.iitmandi.ac.in"
 }
-Here `dbURL` is the mongoDB databse URL which you want to use which we will suggest to create a mongoDB atlas
 ```
+Here `dbURL` is the mongoDB databse URL which you want to use which we will suggest to create a mongoDB atlas
+
 5. Now run 
 ```
 npm start
