@@ -1,8 +1,14 @@
 # Want to contribute?
 
 1. First fork the repo and then clone your forked repo.
-2. Run ```cd main site```
-3. Install dependencies using npm - Run ```npm install```.
+2. Run 
+```
+cd main_site
+```
+3. Install dependencies using npm - Run 
+```
+npm install
+```.
 4. Now you need a configuration file to run the server. so, for that create a `config` folder in the `main_site` folder. Then create a file `development.json` with the following content.
 ```
 {
@@ -16,10 +22,23 @@
 }
 Here `dbURL` is the mongoDB databse URL which you want to use which we will suggest to create a mongoDB atlas
 ```
-5. Now run ```npm start```.
+5. Now run 
+```
+npm start
+```
 ```
 You may better use nodemon to start the server.
 To install nodemon on
-* Windows run ```npm install -g nodemon```
-* Ubuntu run ```sudo npm install -g nodemon```.
-now run ```nodemon``` to start the development server.
+* Windows run 
+```
+npm install -g nodemon
+```
+* Ubuntu run 
+```
+sudo npm install -g nodemon
+```.
+now run 
+```
+nodemon
+``` 
+to start the development server.
