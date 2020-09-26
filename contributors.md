@@ -14,10 +14,12 @@
     "mailFromPassword": "",
     "mailToEmail": "robotronics@students.iitmandi.ac.in"
 }
+Here `dbURL` is the mongoDB databse URL which you want to use which we will suggest to create a mongoDB atlas
 ```
 5. Now run ```npm start```.
-6. You may better use nodemon to start the server.
-7. To install nodemon on
+```
+You may better use nodemon to start the server.
+To install nodemon on
 * Windows run ```npm install -g nodemon```
 * Ubuntu run ```sudo npm install -g nodemon```.
-8. now run ```nodemon``` to start the development server.
+now run ```nodemon``` to start the development server.
